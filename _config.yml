@@ -3,24 +3,36 @@
 # -----------------------------------------------------------------------------
 
 title: blank # the website title (if blank, full name will be used instead)
-first_name: You
-middle_name: R.
-last_name: Name
-contact_note: >
-  You can even add a little note about which of these is the best way to reach you.
+first_name: Han
+middle_name: 
+last_name: SeungYeop
+
+# about 페이지 최하단 조그마한 글 한 줄
+contact_note: > 
+  email: ammezkhan@gmail.com | Github: https://github.com/SeungYeop-Han
+
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
   A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+
+# 하단 플로팅 바
 footer_text: >
   Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme.
   Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
-  Photos from <a href="https://unsplash.com" target="_blank">Unsplash</a>.
-keywords: jekyll, jekyll-theme, academic-website, portfolio-website # add your own keywords or leave empty
-lang: en # the language of your site (for example: en, fr, cn, ru, etc.)
-icon: ⚛️ # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
+#  Photos from <a href="https://unsplash.com" target="_blank">Unsplash</a>.
+
+# add your own keywords or leave empty
+keywords: dev, tech-blog, portfolio-website # jekyll, jekyll-theme, academic-website, portfolio-website 
+
+# the language of your site (for example: en, fr, cn, ru, etc.)
+lang: en
+
+# the emoji used as the favicon (alternatively, provide image name in /assets/img/)
+icon: 🌐 # ⚛️⚗️🔬💻🖥️📀📔📕📖📗📘📙📚📓📒📜📃📄📑📦💼📁📂🗂️🛸🚀🌝🌚🌜🌛🌞💠🌐✔️➕➖➗✖️🟰©️➰〰️™️®️
 
 url: https://seungyeop-han.github.io # the base hostname & protocol for your site
 baseurl: # /al-folio # the subpath of your site, e.g. /blog/. Leave blank for root
-last_updated: false # set to true if you want to display last updated in the footer
+
+last_updated: true # set to true if you want to display last updated in the footer
 impressum_path: # set to path to include impressum link in the footer, use the same path as permalink in a page, helps to conform with EU GDPR
 back_to_top: true # set to false to disable the back to top button
 
@@ -28,9 +40,13 @@ back_to_top: true # set to false to disable the back to top button
 # Theme
 # -----------------------------------------------------------------------------
 
+# Edit the `_data/repositories.yml` and change the `github_users` and `github_repos` lists to include your own GitHub profile and repositories.
 # repo color theme
-repo_theme_light: default # https://github.com/anuraghazra/github-readme-stats/blob/master/themes/README.md
-repo_theme_dark: dark # https://github.com/anuraghazra/github-readme-stats/blob/master/themes/README.md
+# https://github.com/anuraghazra/github-readme-stats/blob/master/themes/README.md
+repo_theme_light: default # catppuccin_latte, swift, graywhite, vue, 
+# https://github.com/anuraghazra/github-readme-stats/blob/master/themes/README.md
+repo_theme_dark: dark # dark, gotham, react, city_lights, github_dark, github_dark_dimmed, holi, 
+# 깃헙 트로피
 repo_trophies:
   enabled: true
   theme_light: flat # https://github.com/ryo-ma/github-profile-trophy
@@ -47,14 +63,14 @@ repo_trophies:
 # -----------------------------------------------------------------------------
 
 navbar_fixed: true
-footer_fixed: true
+footer_fixed: false
 search_enabled: true
 socials_in_search: true
 posts_in_search: true
 bib_search: true
 
 # Dimensions
-max_width: 930px
+max_width: 1000px # 930px # (<- 기본값)
 
 # TODO: add layout settings (single page vs. multi-page)
 
@@ -86,9 +102,17 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 # Blog
 # -----------------------------------------------------------------------------
 
-blog_name: al-folio # blog_name will be displayed in your blog page
-blog_description: a simple whitespace theme for academics
+blog_name: Blog # blog_name will be displayed in your blog page
+blog_description: a bit of this, bit of that
 permalink: /blog/:year/:title/
+
+# 문서 모음에서 단어 간의 관계를 찾는 수학적 기술입니다. LSI를 사용하면 수십 개의 텍스트를 비교하고
+# 그 중 일부가 주제별로 유사하다는 결론을 내릴 수 있습니다.
+# 알고리즘은 주요 주제 키워드가 일부 텍스트에서 직접 사용되지 않는 경우에도 유사성을 이끌어냅니다.
+# ---
+# 이거 켜면 블로그 포스트 하단에 유사한 다른 아티클 추천해줌
+# 빌드 속도 엄청 느려지니까, 블로그 얼추 모양 잡고 난 이후에 켜도록 하자
+# + lsi 한국어 stopword 지원하는 지 여부 확인해봐야 함
 lsi: false # produce an index for related posts
 
 # Pagination
@@ -100,20 +124,27 @@ related_blog_posts:
   max_related: 5
 
 # Giscus comments (RECOMMENDED)
+# 깃헙 이슈 댓글 연동
+# 깃헙 페이지 레포에 giscus 설치해야함
 # Follow instructions on https://giscus.app/ to setup for your repo to fill out the information below.
 giscus:
-  repo: # <your-github-user-name>/<your-github-repo-name>
-  repo_id: # leave empty or specify your repo_id (see https://giscus.app/)
+  repo: SeungYeop-Han/seungyeop-han.github.io # <your-github-user-name>/<your-github-repo-name>
+  repo_id: R_kgDOQHBJNA # leave empty or specify your repo_id (see https://giscus.app/)
   category: Comments # name of the category under which discussions will be created
-  category_id: # leave empty or specify your category_id (see https://giscus.app/)
+  category_id: DIC_kwDOQHBJNM4Cw_4z # leave empty or specify your category_id (see https://giscus.app/)
   mapping: title # identify discussions by post title
   strict: 1 # use strict identification mode
   reactions_enabled: 1 # enable (1) or disable (0) emoji reactions
-  input_position: bottom # whether to display input form below (bottom) or above (top) the comments
-  dark_theme: dark # name of the dark color scheme (preferred works well with al-folio dark mode)
-  light_theme: light # name of the light color scheme (preferred works well with al-folio light mode)
+  input_position: top # whether to display input form below (bottom) or above (top) the comments
+  dark_theme: preferred_color_scheme # name of the dark color scheme (preferred works well with al-folio dark mode)
+  light_theme: preferred_color_scheme # name of the light color scheme (preferred works well with al-folio light mode)
   emit_metadata: 0
-  lang: en
+  lang: ko # en | ko
+
+# 다음의 레이아웃에 댓글을 추가할 수 있음
+# post | book-review | distill | page 
+# 댓글을 추가하고 싶으면 layout 이 위 네 가지 유형인 마크다운 문서의 메타 데이터에 다음 속성을 추가
+# giscus_comments: true
 
 # Disqus comments (DEPRECATED)
 disqus_shortname: al-folio # put your disqus shortname
