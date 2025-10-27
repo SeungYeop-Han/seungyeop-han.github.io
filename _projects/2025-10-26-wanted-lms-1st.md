@@ -167,243 +167,274 @@ DB 설계가 뭔가 나왔네? 싶으니 목표도 기능도 확정되지 않았
 
 ### 3.1.1. ORM 부재 상황에서의 DDD 적용
 
-- **문제**
+**문제**
   - 데이터 접근 계층의 구현이 지나치게 복잡하고 크다.
   - 강좌를 생성할 것을 요청하는 `CourseRepository.create` 메서드를 예로 들어 보겠다.
-    {% details CourseRepository.create %}
-    ```java
-    @Override
-    public Course create(Course course) {
+  - 강좌를 하나 생성하기 위한 코드가 300줄 가까이 되는 것을 확인할 수 있다.
+  
+{% details CourseRepository.create %}
+{% highlight java %}
+@Override
+  public Course create(Course course) {
 
-        // 1. 파라미터 검증
-        if (course == null) {
-            throw new IllegalArgumentException("course 가 null");
-        }
-        if (course.getId() != null) {
-            throw new IllegalArgumentException("course.id 가 null");
-        }
+      // 1. 파라미터 검증
+      if (course == null) {
+          throw new IllegalArgumentException("course 가 null");
+      }
+      if (course.getId() != null) {
+          throw new IllegalArgumentException("course.id 가 null");
+      }
 
-        // 2. SQL 작성
-        String sql = """
-                INSERT INTO course
-                (title, category_id, summary, detail, user_id, created_at, updated_at)
-                VALUES(?, ?, ?, ?, ?, ?, ?)
-                """;
+      // 2. SQL 작성
+      String sql = """
+              INSERT INTO course
+              (title, category_id, summary, detail, user_id, created_at, updated_at)
+              VALUES(?, ?, ?, ?, ?, ?, ?)
+              """;
 
-        // 3. Connection 객체 획득(Connection 객체는 여기서 닫으면 안 됨!)
-        Connection conn = ConnectionHolder.get();
+      // 3. Connection 객체 획득(Connection 객체는 여기서 닫으면 안 됨!)
+      Connection conn = ConnectionHolder.get();
 
-        // 4. JDBC 를 통해 SQL 문 실행 및 결과 처리
-        try {
+      // 4. JDBC 를 통해 SQL 문 실행 및 결과 처리
+      try {
 
-            // a. 처리 유형 (1): create - executeUpdate -> t/f (with ResultSet for auto inc key)
-            try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+          // a. 처리 유형 (1): create - executeUpdate -> t/f (with ResultSet for auto inc key)
+          try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-                // SQL 와일드 카드에 값 채우기
-                pstmt.setString(1, course.getTitle());
-                pstmt.setInt(2, course.getSubCategoryId());
-                pstmt.setString(3, course.getSummary());
-                pstmt.setString(4, course.getDetail());
-                pstmt.setLong(5, course.getUserId());
-                pstmt.setTimestamp(6, Timestamp.valueOf(course.getCreatedAt()));
-                pstmt.setTimestamp(
-                        7,
-                        course.getUpdatedAt() == null ? null : Timestamp.valueOf(course.getUpdatedAt())
-                );
+              // SQL 와일드 카드에 값 채우기
+              pstmt.setString(1, course.getTitle());
+              pstmt.setInt(2, course.getSubCategoryId());
+              pstmt.setString(3, course.getSummary());
+              pstmt.setString(4, course.getDetail());
+              pstmt.setLong(5, course.getUserId());
+              pstmt.setTimestamp(6, Timestamp.valueOf(course.getCreatedAt()));
+              pstmt.setTimestamp(
+                      7,
+                      course.getUpdatedAt() == null ? null : Timestamp.valueOf(course.getUpdatedAt())
+              );
 
-                // SQL 실행
-                int result = pstmt.executeUpdate();
-                if (result == 0) {
-                    throw new DatabaseException("알 수 없는 이유로 생성에 실패했습니다.", null);
-                }
+              // SQL 실행
+              int result = pstmt.executeUpdate();
+              if (result == 0) {
+                  throw new DatabaseException("알 수 없는 이유로 생성에 실패했습니다.", null);
+              }
 
-                // 처음에는 비어있음
-                int id = -1;
-                RebuildCourse rebuildCourse = null;
-                List<RebuildSection> rebuildSections = new ArrayList<>();
+              // 처음에는 비어있음
+              int id = -1;
+              RebuildCourse rebuildCourse = null;
+              List<RebuildSection> rebuildSections = new ArrayList<>();
 
-                try (ResultSet rs = pstmt.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        // Course.id
-                        id = rs.getInt(1);
-                    }
-                }
+              try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                  if (rs.next()) {
+                      // Course.id
+                      id = rs.getInt(1);
+                  }
+              }
 
-                // 섹션 리스트 영속화
-                rebuildSections
-                        = sectionRepository.createAllSectionsOfCourse(course.sections(), id);
+              // 섹션 리스트 영속화
+              rebuildSections
+                      = sectionRepository.createAllSectionsOfCourse(course.sections(), id);
 
-                // RebuildCourse
-                rebuildCourse = new RebuildCourse(
-                        id,
-                        course.getTitle(),
-                        course.getSummary(),
-                        course.getDetail(),
-                        course.getSubCategoryId(),
-                        course.getUserId(),
+              // RebuildCourse
+              rebuildCourse = new RebuildCourse(
+                      id,
+                      course.getTitle(),
+                      course.getSummary(),
+                      course.getDetail(),
+                      course.getSubCategoryId(),
+                      course.getUserId(),
 
-                        // 이 시점에서 rebuildSections 리스트는 비어있음
-                        rebuildSections,
+                      // 이 시점에서 rebuildSections 리스트는 비어있음
+                      rebuildSections,
 
-                        course.getCreatedAt(),
-                        course.getUpdatedAt()
-                );
+                      course.getCreatedAt(),
+                      course.getUpdatedAt()
+              );
 
-                // rebuild 및 반환
-                return Course.rebuild(rebuildCourse);
-            }
-            // b. 예외 처리
-        } catch (SQLException e) {
-            dbUtils.handleSQLException(conn, e);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("CourseRepository.create: rebuild 할 수 없습니다." +
-                    "course 내부 상태를 다시 한 번 확인하시기 바랍니다.", e);
-        }
+              // rebuild 및 반환
+              return Course.rebuild(rebuildCourse);
+          }
+          // b. 예외 처리
+      } catch (SQLException e) {
+          dbUtils.handleSQLException(conn, e);
+      } catch (IllegalArgumentException e) {
+          throw new IllegalArgumentException("CourseRepository.create: rebuild 할 수 없습니다." +
+                  "course 내부 상태를 다시 한 번 확인하시기 바랍니다.", e);
+      }
 
-        // x. 코드가 의도대로 올바르게 구현된 경우 여기에 도달할 수 없습니다.
-        throw new RuntimeException("CategoryRepositoryImpl.create: 도달 불가능하도록 의도된 지점에 도달했습니다.");
+      // x. 코드가 의도대로 올바르게 구현된 경우 여기에 도달할 수 없습니다.
+      throw new RuntimeException("CategoryRepositoryImpl.create: 도달 불가능하도록 의도된 지점에 도달했습니다.");
+  }
+{% endhighlight %}
+{% enddetails %}
+
+{% details SectionRepository.createAllSectionsOfCourse %}
+{% highlight java %}
+@Override
+public List<RebuildSection> createAllSectionsOfCourse(List<Section> sections, int courseId) {
+
+    // 1. 파라미터 검증
+    if (sections == null) {
+        throw new IllegalArgumentException("sections 가 null 입니다.");
     }
-    ```
-    {% enddetails %}
-    {% details SectionRe. %}
-    ```java
-    @Override
-    public List<RebuildSection> createAllSectionsOfCourse(List<Section> sections, int courseId) {
+    if (sections.isEmpty()) {
+        throw new IllegalArgumentException("sections 가 empty 입니다.");
+    }
 
-        // 1. 파라미터 검증
-        if (sections == null) {
-            throw new IllegalArgumentException("sections 가 null 입니다.");
-        }
-        if (sections.isEmpty()) {
-            throw new IllegalArgumentException("sections 가 empty 입니다.");
-        }
+    // 2. SQL 작성
+    StringBuilder sqlBuilder = new StringBuilder();
+    String invariant = """
+            INSERT INTO section
+            (name, seq, course_id)
+            VALUES
+            """;
+    sqlBuilder
+            .append(invariant)
+            .append("(?, ?, ?),".repeat(sections.size()))
+            .deleteCharAt(sqlBuilder.length() - 1);  // 마지막 , 제거
 
-        // 2. SQL 작성
-        StringBuilder sqlBuilder = new StringBuilder();
-        String invariant = """
-                INSERT INTO section
-                (name, seq, course_id)
-                VALUES
-                """;
-        sqlBuilder
-                .append(invariant)
-                .append("(?, ?, ?),".repeat(sections.size()))
-                .deleteCharAt(sqlBuilder.length() - 1);  // 마지막 , 제거
+    // 3. Connection 객체 획득(Connection 객체는 여기서 닫으면 안 됨!)
+    Connection conn = ConnectionHolder.get();
 
-        // 3. Connection 객체 획득(Connection 객체는 여기서 닫으면 안 됨!)
-        Connection conn = ConnectionHolder.get();
+    // 4. JDBC 를 통해 SQL 문 실행 및 결과 처리
+    try {
 
-        // 4. JDBC 를 통해 SQL 문 실행 및 결과 처리
-        try {
+        // a. 처리 유형 (1): create - executeUpdate -> t/f (with ResultSet for auto inc key)
+        try (PreparedStatement pstmt
+                      = conn.prepareStatement(
+                              sqlBuilder.toString(), Statement.RETURN_GENERATED_KEYS)
+        ) {
 
-            // a. 처리 유형 (1): create - executeUpdate -> t/f (with ResultSet for auto inc key)
-            try (PreparedStatement pstmt
-                         = conn.prepareStatement(
-                                 sqlBuilder.toString(), Statement.RETURN_GENERATED_KEYS)
-            ) {
+            // SQL 와일드 카드에 값 채우기
+            int wildcardSeq = 0;
+            for (int i = 0; i < sections.size(); i++) {
 
-                // SQL 와일드 카드에 값 채우기
-                int wildcardSeq = 0;
-                for (int i = 0; i < sections.size(); i++) {
+                Section eachSection = sections.get(i);
+
+                pstmt.setString(++wildcardSeq, eachSection.getName());
+                pstmt.setInt(++wildcardSeq, eachSection.getSeq());
+                pstmt.setInt(++wildcardSeq, courseId);
+            }
+
+            // SQL 실행
+            int result = pstmt.executeUpdate();
+            if (result != sections.size()) {
+                throw new DatabaseException("일부 섹션 생성에 실패했습니다.", null);
+            }
+            
+            // 모든 컨텐츠 저장
+            List<Integer> generatedSectionIds = new ArrayList<>();
+            Map<Integer, List<Content>> contentsToBeCreated = new HashMap<>();
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+
+                for (int i = 0; rs.next(); i++) {
+                    int id = rs.getInt(1);
+                    generatedSectionIds.add(id);
 
                     Section eachSection = sections.get(i);
-
-                    pstmt.setString(++wildcardSeq, eachSection.getName());
-                    pstmt.setInt(++wildcardSeq, eachSection.getSeq());
-                    pstmt.setInt(++wildcardSeq, courseId);
+                    contentsToBeCreated.put(id, eachSection.getContents());
                 }
-
-                // SQL 실행
-                int result = pstmt.executeUpdate();
-                if (result != sections.size()) {
-                    throw new DatabaseException("일부 섹션 생성에 실패했습니다.", null);
-                }
-                
-                // 모든 컨텐츠 저장
-                List<Integer> generatedSectionIds = new ArrayList<>();
-                Map<Integer, List<Content>> contentsToBeCreated = new HashMap<>();
-                try (ResultSet rs = pstmt.getGeneratedKeys()) {
-
-                    for (int i = 0; rs.next(); i++) {
-                        int id = rs.getInt(1);
-                        generatedSectionIds.add(id);
-
-                        Section eachSection = sections.get(i);
-                        contentsToBeCreated.put(id, eachSection.getContents());
-                    }
-                }
-                Map<Integer, List<RebuildContent>> rebuildContentsBySectionId
-                        = contentRepository.createAllContentsOfSections(contentsToBeCreated);
-
-                // List<RebuildSection> 객체 생성 및 반환
-                List<RebuildSection> rebuildSections = new ArrayList<>();
-                for (int i = 0; i < sections.size(); i++) {
-
-                    int sectionId = generatedSectionIds.get(i);
-                    List<RebuildContent> rebuildContents = rebuildContentsBySectionId.get(sectionId);
-
-                    rebuildSections.add(new RebuildSection(
-                            sectionId,
-                            sections.get(i).getSeq(),
-                            sections.get(i).getName(),
-                            rebuildContents
-                    ));
-                }
-
-                return rebuildSections;
             }
-            // b. 예외 처리
-        } catch (SQLException e) {
-            dbUtils.handleSQLException(conn, e);
-        }
+            Map<Integer, List<RebuildContent>> rebuildContentsBySectionId
+                    = contentRepository.createAllContentsOfSections(contentsToBeCreated);
 
-        // x. 코드가 의도대로 올바르게 구현된 경우 여기에 도달할 수 없습니다.
-        throw new RuntimeException("CategoryRepositoryImpl.create: 도달 불가능하도록 의도된 지점에 도달했습니다.");
+            // List<RebuildSection> 객체 생성 및 반환
+            List<RebuildSection> rebuildSections = new ArrayList<>();
+            for (int i = 0; i < sections.size(); i++) {
+
+                int sectionId = generatedSectionIds.get(i);
+                List<RebuildContent> rebuildContents = rebuildContentsBySectionId.get(sectionId);
+
+                rebuildSections.add(new RebuildSection(
+                        sectionId,
+                        sections.get(i).getSeq(),
+                        sections.get(i).getName(),
+                        rebuildContents
+                ));
+            }
+
+            return rebuildSections;
+        }
+        // b. 예외 처리
+    } catch (SQLException e) {
+        dbUtils.handleSQLException(conn, e);
     }
-    ```
-    {% enddetails %}
-    {% details CourseRepository.create %}
-    ```java
-    @Override
-    public Map<Integer, List<RebuildContent>> createAllContentsOfSections(
-            Map<Integer, List<Content>> contentsBySectionId) {
 
-        // 1. 파라미터 검증
-        if (contentsBySectionId == null) {
-            throw new IllegalArgumentException("contentsBySectionId 가 null");
-        }
+    // x. 코드가 의도대로 올바르게 구현된 경우 여기에 도달할 수 없습니다.
+    throw new RuntimeException("CategoryRepositoryImpl.create: 도달 불가능하도록 의도된 지점에 도달했습니다.");
+}
+{% endhighlight %}
+{% enddetails %}
 
-        // 2. SQL 작성
-        int numOfContents = 0;
-        for (List<Content> contentList : contentsBySectionId.values()) {
-            numOfContents += contentList.size();
-        }
-        StringBuilder sqlBuilder = new StringBuilder();
-        String invariant = """
-                INSERT INTO content
-                (name, seq, section_id, body)
-                VALUES
-                """;
-        sqlBuilder
-                .append(invariant)
-                .append("(?, ?, ?, ?),".repeat(numOfContents))
-                .deleteCharAt(sqlBuilder.length() - 1);  // 마지막 , 제거
+{% details ContentRepository.createAllContentsOfSections %}
+{% highlight java %}
+@Override
+public Map<Integer, List<RebuildContent>> createAllContentsOfSections(
+        Map<Integer, List<Content>> contentsBySectionId) {
 
-        // 3. Connection 객체 획득(Connection 객체는 여기서 닫으면 안 됨!)
-        Connection conn = ConnectionHolder.get();
+    // 1. 파라미터 검증
+    if (contentsBySectionId == null) {
+        throw new IllegalArgumentException("contentsBySectionId 가 null");
+    }
 
-        // 4. JDBC 를 통해 SQL 문 실행 및 결과 처리
-        try {
+    // 2. SQL 작성
+    int numOfContents = 0;
+    for (List<Content> contentList : contentsBySectionId.values()) {
+        numOfContents += contentList.size();
+    }
+    StringBuilder sqlBuilder = new StringBuilder();
+    String invariant = """
+            INSERT INTO content
+            (name, seq, section_id, body)
+            VALUES
+            """;
+    sqlBuilder
+            .append(invariant)
+            .append("(?, ?, ?, ?),".repeat(numOfContents))
+            .deleteCharAt(sqlBuilder.length() - 1);  // 마지막 , 제거
 
-            // a. 처리 유형 (1): create - executeUpdate -> t/f (with ResultSet for auto inc key)
-            try (PreparedStatement pstmt
-                         = conn.prepareStatement(
-                                 sqlBuilder.toString(), Statement.RETURN_GENERATED_KEYS)
-            ) {
+    // 3. Connection 객체 획득(Connection 객체는 여기서 닫으면 안 됨!)
+    Connection conn = ConnectionHolder.get();
 
-                // SQL 와일드 카드에 값 채우기
-                int wildcardSeq = 0;
+    // 4. JDBC 를 통해 SQL 문 실행 및 결과 처리
+    try {
+
+        // a. 처리 유형 (1): create - executeUpdate -> t/f (with ResultSet for auto inc key)
+        try (PreparedStatement pstmt
+                      = conn.prepareStatement(
+                              sqlBuilder.toString(), Statement.RETURN_GENERATED_KEYS)
+        ) {
+
+            // SQL 와일드 카드에 값 채우기
+            int wildcardSeq = 0;
+            for (Integer sectionId : contentsBySectionId.keySet()) {
+                List<Content> contents = contentsBySectionId.get(sectionId);
+
+                if (contents == null) {
+                    continue;
+                }
+
+                for (Content content : contents) {
+                    pstmt.setString(++wildcardSeq, content.getName());
+                    pstmt.setInt(++wildcardSeq, content.getSeq());
+                    pstmt.setInt(++wildcardSeq, sectionId);
+                    pstmt.setString(++wildcardSeq, content.getBody());
+                }
+            }
+
+            // SQL 실행
+            int result = pstmt.executeUpdate();
+            if (result != numOfContents) {
+                throw new DatabaseException("일부 컨텐츠 생성에 실패했습니다.", null);
+            }
+
+            // Map<Integer, List<RebuildContent>> 객체 생성 및 반환
+            Map<Integer, List<RebuildContent>> rebuildContentsBySectionId
+                    = new HashMap<>();
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+
                 for (Integer sectionId : contentsBySectionId.keySet()) {
+                    List<RebuildContent> rebuildContents = new ArrayList<>();
                     List<Content> contents = contentsBySectionId.get(sectionId);
 
                     if (contents == null) {
@@ -411,80 +442,51 @@ DB 설계가 뭔가 나왔네? 싶으니 목표도 기능도 확정되지 않았
                     }
 
                     for (Content content : contents) {
-                        pstmt.setString(++wildcardSeq, content.getName());
-                        pstmt.setInt(++wildcardSeq, content.getSeq());
-                        pstmt.setInt(++wildcardSeq, sectionId);
-                        pstmt.setString(++wildcardSeq, content.getBody());
+                        rs.next();
+                        rebuildContents.add(new RebuildContent(
+                                rs.getLong(1),
+                                content.getName(),
+                                content.getSeq(),
+                                content.getBody()
+                        ));
                     }
+                    rebuildContentsBySectionId.put(sectionId, rebuildContents);
                 }
-
-                // SQL 실행
-                int result = pstmt.executeUpdate();
-                if (result != numOfContents) {
-                    throw new DatabaseException("일부 컨텐츠 생성에 실패했습니다.", null);
-                }
-
-                // Map<Integer, List<RebuildContent>> 객체 생성 및 반환
-                Map<Integer, List<RebuildContent>> rebuildContentsBySectionId
-                        = new HashMap<>();
-                try (ResultSet rs = pstmt.getGeneratedKeys()) {
-
-                    for (Integer sectionId : contentsBySectionId.keySet()) {
-                        List<RebuildContent> rebuildContents = new ArrayList<>();
-                        List<Content> contents = contentsBySectionId.get(sectionId);
-
-                        if (contents == null) {
-                            continue;
-                        }
-
-                        for (Content content : contents) {
-                            rs.next();
-                            rebuildContents.add(new RebuildContent(
-                                    rs.getLong(1),
-                                    content.getName(),
-                                    content.getSeq(),
-                                    content.getBody()
-                            ));
-                        }
-                        rebuildContentsBySectionId.put(sectionId, rebuildContents);
-                    }
-                }
-
-                return rebuildContentsBySectionId;
             }
-            // b. 예외 처리
-        } catch (SQLException e) {
-            dbUtils.handleSQLException(conn, e);
-        }
 
-        // x. 코드가 의도대로 올바르게 구현된 경우 여기에 도달할 수 없습니다.
-        throw new RuntimeException("CategoryRepositoryImpl.create: 도달 불가능하도록 의도된 지점에 도달했습니다.");
+            return rebuildContentsBySectionId;
+        }
+        // b. 예외 처리
+    } catch (SQLException e) {
+        dbUtils.handleSQLException(conn, e);
     }
-    ```
-    {% enddetails %}
-  - 강좌를 하나 생성하기 위한 코드가 300줄 가까이 되는 것을 확인할 수 있다.
-- **원인**
+
+    // x. 코드가 의도대로 올바르게 구현된 경우 여기에 도달할 수 없습니다.
+    throw new RuntimeException("CategoryRepositoryImpl.create: 도달 불가능하도록 의도된 지점에 도달했습니다.");
+}
+{% endhighlight %}
+{% enddetails %}
+
+<br>
+
+**원인**
   - OOP 와 RDBMS 간 데이터를 다루는 패러다임의 불일치는 비즈니스 로직과 무관한 보일러 플레이트 코드를 양산한다.
   - 쿼리 마다 다음 과정이 계속해서 반복된다.
-    - Connection 획득
-    - → SQL 문자열 생성
-    - → PreparedStatement 생성
-    - → 파라미터 바인딩
-    - → 실행
-    - → ResultSet 매핑
-    - → 예외 처리
-    - → 리소스 정리
+  - Connection 획득 → SQL 문자열 생성 → PreparedStatement 생성 → 파라미터 바인딩 → 실행 → ResultSet 매핑 → 예외 처리 → 리소스 정리
   - 이에 더해 DDD 특유의 캡슐화로 인한 객체 생성의 제한은 이 복잡도를 증폭시켰다.
   - 개발 시간의 상당 부분이 비즈니스 로직과 무관한 데이터 접근 코드를 작성하는 데 소모되었다.
-- **기존의 개선 노력**
+
+**기존의 개선 노력**
   - JDBC 의 Batch 기능을 이용하여 SQL 생성 부분 간소화
   - 공통된 예외 처리 로직을 분리(`dbUtils.handleSQLException`)
-- **기존 방식의 한계**
+
+**기존 방식의 한계**
   - 여전히 너무 복잡하고 크다.
   - DDD는 좋은 설계 방식이지만, ORM의 도움 없이는 OOP-RDBMS 간 패러다임 불일치 문제가 극심하게 드러난다.
   - Asset, Category, Notice 와 달리, Course 도메인은 Section 및 Content aggregate 를 포함하여 복잡도가 급증한것이다.
   - 개발 시간의 대부분이 CourseRepository 구현에 소모되었다.
-- **개선 방향**
+
+**개선 방향**
   - JPA/Hibernate 와 같은 ORM 기술 도입!
   - 단, 이번에 JDBC 기술을 사용한 것은 경험의 측면도 있었다. JDBC 기술을 사용해야 한다면
     - 무리하게 DDD 를 적용하는 것은 명백히 Over Engineering 이다.
@@ -503,16 +505,20 @@ DB 설계가 뭔가 나왔네? 싶으니 목표도 기능도 확정되지 않았
 
 ### 3.2.1. 계층 기반 업무 분할의 한계
 
-- **문제**
+**문제**
   - 계층 단위(presentation/service/repository/domain)로 업무를 나누어 진행하였고, 계층 간 의존성에 따른 업무 상 병목이 발생했다.
-- **원인**
+  
+**원인**
   - 요구사항이 명확하게 명세되지 않았고, 사실 도메인을 인원 수에 맞게 쪼갤 수도 없었다. 이런 이유로 계층 단위로 업무를 나누기로 결정했으나 결과적으로 좋은 선택은 아니었다. 업무에 있어 직렬적인 의존관계가 발생했기 때문이다. 예를 들어, 도메인 초안 코드가 나오기 전 까지 repository 계층을 구현할 수 없었고, 내가 repository 계층을 구현하기 전에 service 레이어를 구현할 수 없었다.
-- **기존 개선 노력**
+  
+**기존 개선 노력**
   - 서비스 계층 구현 인원이 최대한 빠르게 구현을 시작할 수 있도록 repository 계층의 인터페이스를 먼저 구현하여 제공했다.
-- **기존 방식의 한계**
+  
+**기존 방식의 한계**
   - 모든 계층에서 인터페이스를 만드는 것이 바람직한 것은 아니다. 추상화 비용을 고려해야 한다.
   - 인터페이스가 변경되는 것이 바람직하지 않다는 것은 알았지만, 경험의 부족으로 실수하거나 간과한 부분들이 조금씩 보였다. 이로 인해 인터페이스 변경이 몇 번 있었고, 이 때마다 추가적인 의사소통 및 코드 조정 비용이 발생했다.
-- **개선 방향**
+  
+**개선 방향**
   - 요구 사항을 명확히 정의하는 것이 필요했을 것 같다.
   - 그리고 도메인 단위의 수직 분할을 고려하여 업무 상 병목 최소화 꾀할 수 있을 것 같다.
 
