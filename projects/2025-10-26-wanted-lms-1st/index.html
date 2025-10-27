@@ -1,291 +1,282 @@
 <!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> 원티드 포텐업 LMS - 1개월차 회고 | Han SeungYeop </title> <meta name="author" content="Han SeungYeop"> <meta name="description" content="JDBC 기반의 커맨드라인 LMS 개발 여정"> <meta name="keywords" content="dev, tech-blog, portfolio-website"> <link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5"> <link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%8C%90&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e"> <link rel="canonical" href="https://seungyeop-han.github.io/projects/2025-10-26-wanted-lms-1st/"> <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
     initTheme();
-  </script> </head> <body class="fixed-top-nav sticky-bottom-footer"> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> <span class="font-weight-bold">Han</span> SeungYeop </a> <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse text-right" id="navbarNav"> <ul class="navbar-nav ml-auto flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item "> <a class="nav-link" href="/books/">bookshelf </a> </li> <li class="nav-item "> <a class="nav-link" href="/blog/">blog </a> </li> <li class="nav-item active"> <a class="nav-link" href="/projects/">projects <span class="sr-only">(current)</span> </a> </li> <li class="nav-item "> <a class="nav-link" href="/repositories/">repositories </a> </li> <li class="nav-item "> <a class="nav-link" href="/cv/">cv </a> </li> <li class="nav-item"> <button id="search-toggle" title="Search" onclick="openSearchModal()"> <span class="nav-link">ctrl k <i class="ti ti-search"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" title="Change theme"> <i class="ti ti-sun-moon" id="light-toggle-system"></i> <i class="ti ti-moon-filled" id="light-toggle-dark"></i> <i class="ti ti-sun-filled" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">원티드 포텐업 LMS - 1개월차 회고</h1> <p class="post-description">JDBC 기반의 커맨드라인 LMS 개발 여정</p> </header> <article> <div class="row"> <div class="col-sm mt-3 mt-md-0"> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/project/2025-10-26-wanted-lms-1st/team_janban-480.webp 480w,/assets/img/project/2025-10-26-wanted-lms-1st/team_janban-800.webp 800w,/assets/img/project/2025-10-26-wanted-lms-1st/team_janban-1400.webp 1400w," type="image/webp" sizes="95vw"></source> <img src="/assets/img/project/2025-10-26-wanted-lms-1st/team_janban.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="team janban" loading="lazy" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> </picture> </figure> </div> </div> <div class="caption"> 팀 Janban </div> <h1 id="1-본-글의-주제">1. 본 글의 주제</h1> <p>이번 글의 주제는 원티드 포텐업 백엔드 과정 1개월차에 진행한 ‘콘솔 기반의 LMS 서비스 개발 프로젝트’ 에 대한 회고이다.</p> <p>회고를 진행하기 전에 우선 회고 그 자체에 대해서 살펴볼 생각이다. 회고를 해보는 것이 처음이어서 그런지 회고가 정확히 무엇인지, 왜 해야하는 지, 무엇을 해야 하는 지 알 수 없었기 때문이다. 위의 3가지 질문에 대해 스스로 답을 내리고 난 뒤에야, 회고를 진행할 수 있을 것 같다.</p> <p><br></p> <h2 id="11-회고란-무엇인가">1.1. 회고란 무엇인가?</h2> <p>회고란 내가 과거에 수행했던 어떤 일에 대해서 되돌아보고 교훈을 얻는 활동을 말한다. 단순히 지나간 일을 떠올리는 회상과 달리, 회고는 반성하고 배우는 과정을 포함한다. 특히 소프트웨어 개발 등의 분야에서 특정 기간의 성과를 검토하고 개선점을 찾는 활동을 가리키는 용어로 자주 사용된다.</p> <p>한 문장으로 요약하면 회고란 성과를 검토하고, 개선 방향을 모색하는 것이다.</p> <p><br></p> <h2 id="12-왜-회고를-해야-하는가">1.2. 왜 회고를 해야 하는가?</h2> <p>개인적인 관점에서는, 나 자신이 개발을 더 잘하기 위해서 회고를 해야한다.<br> 조직의 관점에서는, 프로젝트를 더 성공적으로 완수하기 위해서 회고를 해야한다.</p> <p><br></p> <h2 id="13-무엇을-해야-하는가">1.3. 무엇을 해야 하는가?</h2> <p>위 질문에 대해 간단하게나마 답을 적어 보니 내가 무엇을 해야 하는지 어느 정도 방향성을 잡을 수 있었다.</p> <p>하나는 프로젝트의 성과를 평가하는 것이다.</p> <ol> <li>프로젝트의 목표는 무엇이었고 이를 성공적으로 달성했는가?</li> <li>달성 여부를 평가하기 위한 핵심 지표는 무엇인가?</li> </ol> <p>다른 하나는 반성하는 것이다.</p> <ol> <li>어떤 문제점 또는 개선할 점이 있었는가?</li> <li>어떻게 해결 또는 개선할 수 있을까?</li> </ol> <p><br></p> <h1 id="2-프로젝트-평가">2. 프로젝트 평가</h1> <p>프로젝트를 평가하기 위해서는 우선 우리의 목표가 무엇이었는지 되돌아보아야 한다. 그런데…</p> <div class="row"> <div class="col-sm mt-3 mt-md-0"> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/project/2025-10-26-wanted-lms-1st/404-480.webp 480w,/assets/img/project/2025-10-26-wanted-lms-1st/404-800.webp 800w,/assets/img/project/2025-10-26-wanted-lms-1st/404-1400.webp 1400w," type="image/webp" sizes="95vw"></source> <img src="/assets/img/project/2025-10-26-wanted-lms-1st/404.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="404 not found" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> </picture> </figure> </div> </div> <div class="caption"> 그런건 없었다 </div> <p>목표가 없었다는 충격적인 결과를 마주하고 말았다. 주도적으로 목표를 세우지도 않았고, 심지어 어떤 기능이 필요한지 조차 제대로 정해놓지 않았다. 목표를 평가하기 위한 주요 지표는 당연하게도 존재하지 않았다.</p> <p><br></p> <h2 id="21-도대체-왜-그랬는가">2.1 도대체 왜 그랬는가?</h2> <p>가장 처음에 모여서 한 활동이 뭐였는지 생각해보니 인프런이라는 강의 사이트를 참고해서 어떤 기능들이 있는지 그리고 어떤 데이터들이 필요한지 파악했었던 것 같다. 대강 아래와 같은 취지의 이야기가 나왔었던 것 같다.</p> <ul> <li>강좌의 카테고리는 상위-하위 2단계로 구분이 된다.</li> <li>강좌는 섹션으로 구분된 강의들을 가지고 있다.</li> <li>강의는 동영상 또는 문서 등의 자료를 가지고 있다.</li> <li>강좌에는 공지사항 같은 것도 있다.</li> <li>근데 너무 크게 만들지 말아야 할 것 같다. 회원 같은건 그냥 id 랑 name 정도만 만들고 관계만 넣어놓자. 회원 가입이나 로그인 기능은 뺴자</li> <li>…</li> </ul> <p>문제는 이 이후에 우리가 정확히 무엇을 만들지 정했어야 하는데, 얼렁뚱땅 바로 DB 설계를 해버렸다는 점이다. DB 설계가 뭔가 나왔네? 싶으니 목표도 기능도 확정되지 않았음에도 불구하고 일단 개발부터 시작한 것이다.</p> <div class="row"> <div class="col-sm mt-3 mt-md-0"> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/project/2025-10-26-wanted-lms-1st/erd-480.webp 480w,/assets/img/project/2025-10-26-wanted-lms-1st/erd-800.webp 800w,/assets/img/project/2025-10-26-wanted-lms-1st/erd-1400.webp 1400w," type="image/webp" sizes="95vw"></source> <img src="/assets/img/project/2025-10-26-wanted-lms-1st/erd.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="erd" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> </picture> </figure> </div> </div> <div class="caption"> ERD가 나왔으니 개발을 진행해야겠지? </div> <p>그렇다면 우리가 왜 그랬을까? 어쩌면 “애초에 이건 서비스 할 일 없는 토이 프로젝트야” 라는 생각이 바탕에 깔려있엇 던 것 아닐까? 다시 말해, 학습했던 내용을 복습하는 연습 예제 정도로 여긴 것이 가장 큰 문제의 원인이라고 할 수 있을 것 같다. 물론 어느 팀원 하나 열심히 하지 않은 인원은 없었다. 모두가 열심히 개발을 했는데 정작 뭘 만들지 확실하게 정해놓지 않고 어설프게 개발을 진행했던 것이다.</p> <p><br></p> <h2 id="22-그러면-어떻게-프로젝트를-진행했는가">2.2. 그러면 어떻게 프로젝트를 진행했는가?</h2> <p>가장 먼저 도메인을 설계하는 것 부터 시작했다. 앞서 말했듯 기능이나 비즈니스 규칙 등이 명확히 정의되지는 않았다. 그저 회의 동안 나왔던 일종의 구두 합의와 ERD를 바탕으로 도메인을 정의했다.</p> <ul> <li>강좌 도메인 <ul> <li>Course 강좌</li> <li>Section 섹션</li> <li>Content 강의</li> </ul> </li> <li>카테고리 도메인</li> <li>강의 자료(Asset) 도메인</li> </ul> <p>그리고 나서 계층 단위로 업무를 분할했다.</p> <ul> <li>A: Domain</li> <li>B: Repository</li> <li>C: Service</li> <li>D: Presentation</li> <li>E: Asset 도메인(작업 큐를 이용한 비동기 파일 처리)</li> </ul> <p>나는 B 역할인 데이터 접근 계층 개발을 맡아서 수행했다. 데이터 베이스는 MySQL 을 사용했고 JDBC 로 통신했다. 커넥션 풀은 HikariCP 로 관리했다.</p> <p><br></p> <h2 id="23-프로젝트의-결과는-어떠했는가">2.3. 프로젝트의 결과는 어떠했는가?</h2> <p>여러 우여곡절이 있었으나 그래도 발표 당일 아침에 머지를 마치고 기능 시연을 할 수 있었다.</p> <div class="row"> <div class="col-sm mt-3 mt-md-0"> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/project/2025-10-26-wanted-lms-1st/demonstration-480.webp 480w,/assets/img/project/2025-10-26-wanted-lms-1st/demonstration-800.webp 800w,/assets/img/project/2025-10-26-wanted-lms-1st/demonstration-1400.webp 1400w," type="image/webp" sizes="95vw"></source> <img src="/assets/img/project/2025-10-26-wanted-lms-1st/demonstration.gif" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="demonstration" loading="lazy" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> </picture> </figure> </div> </div> <div class="caption"> 어떻게 시연을 하긴 했다. </div> <p>여러모로 아쉬움이 많이 남는다. 다음에 진행할 프로젝트에서는 목표를 확실하게 정해야겠다는 생각을 했다. 어떻게 보면 너무 당연한 부분을 놓친 것 같아 더 아쉽다.</p> <p><strong><em>다음부터 반드시 할 것!</em></strong></p> <ul class="task-list"> <li class="task-list-item"> <input type="checkbox" class="task-list-item-checkbox" disabled>프로젝트 목표 설정 <ul class="task-list"> <li class="task-list-item"> <input type="checkbox" class="task-list-item-checkbox" disabled>기능 범위 설정</li> <li class="task-list-item"> <input type="checkbox" class="task-list-item-checkbox" disabled>기능 요구사항 명세</li> <li class="task-list-item"> <input type="checkbox" class="task-list-item-checkbox" disabled>주요 지표 목표치 설정(주로 성능이나 테스트 커버리지 같은 게 되지 않을까?)</li> </ul> </li> </ul> <p>그래도 완성에 의의를 두려고 한다. 이번 경험을 성장의 밑 거름으로 삼고, 같은 실수를 반복하지 않기 위해서 기록해놓을 필요가 있다. 지금부터 프로젝트를 진행하면서 느꼈던 문제점들을 정리하고자 한다.</p> <hr> <p><br></p> <h1 id="3-문제점-및-개선-사항">3. 문제점 및 개선 사항</h1> <p>생각날 때마다 적어서 조금 두서없을 수도 있으니 양해 바란다.</p> <p><br></p> <h2 id="31-기술적인-관점에서의-문제점-및-개선-사항">3.1. 기술적인 관점에서의 문제점 및 개선 사항</h2> <h3 id="311-orm-부재-상황에서의-ddd-적용">3.1.1. ORM 부재 상황에서의 DDD 적용</h3> <ul> <li> <strong>문제</strong> <ul> <li>데이터 접근 계층의 구현이 지나치게 복잡하고 크다.</li> <li>강좌를 생성할 것을 요청하는 <code class="language-plaintext highlighter-rouge">CourseRepository.create</code> 메서드를 예로 들어 보겠다. <details><summary>CourseRepository.create</summary> </details> </li> </ul> </li> </ul> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```java
-@Override
-public Course create(Course course) {
+  </script> </head> <body class="fixed-top-nav sticky-bottom-footer"> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> <span class="font-weight-bold">Han</span> SeungYeop </a> <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse text-right" id="navbarNav"> <ul class="navbar-nav ml-auto flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item "> <a class="nav-link" href="/books/">bookshelf </a> </li> <li class="nav-item "> <a class="nav-link" href="/blog/">blog </a> </li> <li class="nav-item active"> <a class="nav-link" href="/projects/">projects <span class="sr-only">(current)</span> </a> </li> <li class="nav-item "> <a class="nav-link" href="/repositories/">repositories </a> </li> <li class="nav-item "> <a class="nav-link" href="/cv/">cv </a> </li> <li class="nav-item"> <button id="search-toggle" title="Search" onclick="openSearchModal()"> <span class="nav-link">ctrl k <i class="ti ti-search"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" title="Change theme"> <i class="ti ti-sun-moon" id="light-toggle-system"></i> <i class="ti ti-moon-filled" id="light-toggle-dark"></i> <i class="ti ti-sun-filled" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">원티드 포텐업 LMS - 1개월차 회고</h1> <p class="post-description">JDBC 기반의 커맨드라인 LMS 개발 여정</p> </header> <article> <div class="row"> <div class="col-sm mt-3 mt-md-0"> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/project/2025-10-26-wanted-lms-1st/team_janban-480.webp 480w,/assets/img/project/2025-10-26-wanted-lms-1st/team_janban-800.webp 800w,/assets/img/project/2025-10-26-wanted-lms-1st/team_janban-1400.webp 1400w," type="image/webp" sizes="95vw"></source> <img src="/assets/img/project/2025-10-26-wanted-lms-1st/team_janban.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="team janban" loading="lazy" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> </picture> </figure> </div> </div> <div class="caption"> 팀 Janban </div> <h1 id="1-본-글의-주제">1. 본 글의 주제</h1> <p>이번 글의 주제는 원티드 포텐업 백엔드 과정 1개월차에 진행한 ‘콘솔 기반의 LMS 서비스 개발 프로젝트’ 에 대한 회고이다.</p> <p>회고를 진행하기 전에 우선 회고 그 자체에 대해서 살펴볼 생각이다. 회고를 해보는 것이 처음이어서 그런지 회고가 정확히 무엇인지, 왜 해야하는 지, 무엇을 해야 하는 지 알 수 없었기 때문이다. 위의 3가지 질문에 대해 스스로 답을 내리고 난 뒤에야, 회고를 진행할 수 있을 것 같다.</p> <p><br></p> <h2 id="11-회고란-무엇인가">1.1. 회고란 무엇인가?</h2> <p>회고란 내가 과거에 수행했던 어떤 일에 대해서 되돌아보고 교훈을 얻는 활동을 말한다. 단순히 지나간 일을 떠올리는 회상과 달리, 회고는 반성하고 배우는 과정을 포함한다. 특히 소프트웨어 개발 등의 분야에서 특정 기간의 성과를 검토하고 개선점을 찾는 활동을 가리키는 용어로 자주 사용된다.</p> <p>한 문장으로 요약하면 회고란 성과를 검토하고, 개선 방향을 모색하는 것이다.</p> <p><br></p> <h2 id="12-왜-회고를-해야-하는가">1.2. 왜 회고를 해야 하는가?</h2> <p>개인적인 관점에서는, 나 자신이 개발을 더 잘하기 위해서 회고를 해야한다.<br> 조직의 관점에서는, 프로젝트를 더 성공적으로 완수하기 위해서 회고를 해야한다.</p> <p><br></p> <h2 id="13-무엇을-해야-하는가">1.3. 무엇을 해야 하는가?</h2> <p>위 질문에 대해 간단하게나마 답을 적어 보니 내가 무엇을 해야 하는지 어느 정도 방향성을 잡을 수 있었다.</p> <p>하나는 프로젝트의 성과를 평가하는 것이다.</p> <ol> <li>프로젝트의 목표는 무엇이었고 이를 성공적으로 달성했는가?</li> <li>달성 여부를 평가하기 위한 핵심 지표는 무엇인가?</li> </ol> <p>다른 하나는 반성하는 것이다.</p> <ol> <li>어떤 문제점 또는 개선할 점이 있었는가?</li> <li>어떻게 해결 또는 개선할 수 있을까?</li> </ol> <p><br></p> <h1 id="2-프로젝트-평가">2. 프로젝트 평가</h1> <p>프로젝트를 평가하기 위해서는 우선 우리의 목표가 무엇이었는지 되돌아보아야 한다. 그런데…</p> <div class="row"> <div class="col-sm mt-3 mt-md-0"> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/project/2025-10-26-wanted-lms-1st/404-480.webp 480w,/assets/img/project/2025-10-26-wanted-lms-1st/404-800.webp 800w,/assets/img/project/2025-10-26-wanted-lms-1st/404-1400.webp 1400w," type="image/webp" sizes="95vw"></source> <img src="/assets/img/project/2025-10-26-wanted-lms-1st/404.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="404 not found" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> </picture> </figure> </div> </div> <div class="caption"> 그런건 없었다 </div> <p>목표가 없었다는 충격적인 결과를 마주하고 말았다. 주도적으로 목표를 세우지도 않았고, 심지어 어떤 기능이 필요한지 조차 제대로 정해놓지 않았다. 목표를 평가하기 위한 주요 지표는 당연하게도 존재하지 않았다.</p> <p><br></p> <h2 id="21-도대체-왜-그랬는가">2.1 도대체 왜 그랬는가?</h2> <p>가장 처음에 모여서 한 활동이 뭐였는지 생각해보니 인프런이라는 강의 사이트를 참고해서 어떤 기능들이 있는지 그리고 어떤 데이터들이 필요한지 파악했었던 것 같다. 대강 아래와 같은 취지의 이야기가 나왔었던 것 같다.</p> <ul> <li>강좌의 카테고리는 상위-하위 2단계로 구분이 된다.</li> <li>강좌는 섹션으로 구분된 강의들을 가지고 있다.</li> <li>강의는 동영상 또는 문서 등의 자료를 가지고 있다.</li> <li>강좌에는 공지사항 같은 것도 있다.</li> <li>근데 너무 크게 만들지 말아야 할 것 같다. 회원 같은건 그냥 id 랑 name 정도만 만들고 관계만 넣어놓자. 회원 가입이나 로그인 기능은 뺴자</li> <li>…</li> </ul> <p>문제는 이 이후에 우리가 정확히 무엇을 만들지 정했어야 하는데, 얼렁뚱땅 바로 DB 설계를 해버렸다는 점이다. DB 설계가 뭔가 나왔네? 싶으니 목표도 기능도 확정되지 않았음에도 불구하고 일단 개발부터 시작한 것이다.</p> <div class="row"> <div class="col-sm mt-3 mt-md-0"> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/project/2025-10-26-wanted-lms-1st/erd-480.webp 480w,/assets/img/project/2025-10-26-wanted-lms-1st/erd-800.webp 800w,/assets/img/project/2025-10-26-wanted-lms-1st/erd-1400.webp 1400w," type="image/webp" sizes="95vw"></source> <img src="/assets/img/project/2025-10-26-wanted-lms-1st/erd.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="erd" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> </picture> </figure> </div> </div> <div class="caption"> ERD가 나왔으니 개발을 진행해야겠지? </div> <p>그렇다면 우리가 왜 그랬을까? 어쩌면 “애초에 이건 서비스 할 일 없는 토이 프로젝트야” 라는 생각이 바탕에 깔려있엇 던 것 아닐까? 다시 말해, 학습했던 내용을 복습하는 연습 예제 정도로 여긴 것이 가장 큰 문제의 원인이라고 할 수 있을 것 같다. 물론 어느 팀원 하나 열심히 하지 않은 인원은 없었다. 모두가 열심히 개발을 했는데 정작 뭘 만들지 확실하게 정해놓지 않고 어설프게 개발을 진행했던 것이다.</p> <p><br></p> <h2 id="22-그러면-어떻게-프로젝트를-진행했는가">2.2. 그러면 어떻게 프로젝트를 진행했는가?</h2> <p>가장 먼저 도메인을 설계하는 것 부터 시작했다. 앞서 말했듯 기능이나 비즈니스 규칙 등이 명확히 정의되지는 않았다. 그저 회의 동안 나왔던 일종의 구두 합의와 ERD를 바탕으로 도메인을 정의했다.</p> <ul> <li>강좌 도메인 <ul> <li>Course 강좌</li> <li>Section 섹션</li> <li>Content 강의</li> </ul> </li> <li>카테고리 도메인</li> <li>강의 자료(Asset) 도메인</li> </ul> <p>그리고 나서 계층 단위로 업무를 분할했다.</p> <ul> <li>A: Domain</li> <li>B: Repository</li> <li>C: Service</li> <li>D: Presentation</li> <li>E: Asset 도메인(작업 큐를 이용한 비동기 파일 처리)</li> </ul> <p>나는 B 역할인 데이터 접근 계층 개발을 맡아서 수행했다. 데이터 베이스는 MySQL 을 사용했고 JDBC 로 통신했다. 커넥션 풀은 HikariCP 로 관리했다.</p> <p><br></p> <h2 id="23-프로젝트의-결과는-어떠했는가">2.3. 프로젝트의 결과는 어떠했는가?</h2> <p>여러 우여곡절이 있었으나 그래도 발표 당일 아침에 머지를 마치고 기능 시연을 할 수 있었다.</p> <div class="row"> <div class="col-sm mt-3 mt-md-0"> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/project/2025-10-26-wanted-lms-1st/demonstration-480.webp 480w,/assets/img/project/2025-10-26-wanted-lms-1st/demonstration-800.webp 800w,/assets/img/project/2025-10-26-wanted-lms-1st/demonstration-1400.webp 1400w," type="image/webp" sizes="95vw"></source> <img src="/assets/img/project/2025-10-26-wanted-lms-1st/demonstration.gif" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="demonstration" loading="lazy" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> </picture> </figure> </div> </div> <div class="caption"> 어떻게 시연을 하긴 했다. </div> <p>여러모로 아쉬움이 많이 남는다. 다음에 진행할 프로젝트에서는 목표를 확실하게 정해야겠다는 생각을 했다. 어떻게 보면 너무 당연한 부분을 놓친 것 같아 더 아쉽다.</p> <p><strong><em>다음부터 반드시 할 것!</em></strong></p> <ul class="task-list"> <li class="task-list-item"> <input type="checkbox" class="task-list-item-checkbox" disabled>프로젝트 목표 설정 <ul class="task-list"> <li class="task-list-item"> <input type="checkbox" class="task-list-item-checkbox" disabled>기능 범위 설정</li> <li class="task-list-item"> <input type="checkbox" class="task-list-item-checkbox" disabled>기능 요구사항 명세</li> <li class="task-list-item"> <input type="checkbox" class="task-list-item-checkbox" disabled>주요 지표 목표치 설정(주로 성능이나 테스트 커버리지 같은 게 되지 않을까?)</li> </ul> </li> </ul> <p>그래도 완성에 의의를 두려고 한다. 이번 경험을 성장의 밑 거름으로 삼고, 같은 실수를 반복하지 않기 위해서 기록해놓을 필요가 있다. 지금부터 프로젝트를 진행하면서 느꼈던 문제점들을 정리하고자 한다.</p> <hr> <p><br></p> <h1 id="3-문제점-및-개선-사항">3. 문제점 및 개선 사항</h1> <p>생각날 때마다 적어서 조금 두서없을 수도 있으니 양해 바란다.</p> <p><br></p> <h2 id="31-기술적인-관점에서의-문제점-및-개선-사항">3.1. 기술적인 관점에서의 문제점 및 개선 사항</h2> <h3 id="311-orm-부재-상황에서의-ddd-적용">3.1.1. ORM 부재 상황에서의 DDD 적용</h3> <p><strong>문제</strong></p> <ul> <li>데이터 접근 계층의 구현이 지나치게 복잡하고 크다.</li> <li>강좌를 생성할 것을 요청하는 <code class="language-plaintext highlighter-rouge">CourseRepository.create</code> 메서드를 예로 들어 보겠다.</li> <li>강좌를 하나 생성하기 위한 코드가 300줄 가까이 되는 것을 확인할 수 있다.</li> </ul> <details><summary>CourseRepository.create</summary> <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="nc">Course</span> <span class="nf">create</span><span class="o">(</span><span class="nc">Course</span> <span class="n">course</span><span class="o">)</span> <span class="o">{</span>
 
-    // 1. 파라미터 검증
-    if (course == null) {
-        throw new IllegalArgumentException("course 가 null");
-    }
-    if (course.getId() != null) {
-        throw new IllegalArgumentException("course.id 가 null");
-    }
+      <span class="c1">// 1. 파라미터 검증</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">course</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"course 가 null"</span><span class="o">);</span>
+      <span class="o">}</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">course</span><span class="o">.</span><span class="na">getId</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"course.id 가 null"</span><span class="o">);</span>
+      <span class="o">}</span>
 
-    // 2. SQL 작성
-    String sql = """
-            INSERT INTO course
-            (title, category_id, summary, detail, user_id, created_at, updated_at)
-            VALUES(?, ?, ?, ?, ?, ?, ?)
-            """;
+      <span class="c1">// 2. SQL 작성</span>
+      <span class="nc">String</span> <span class="n">sql</span> <span class="o">=</span> <span class="sh">"""
+              INSERT INTO course
+              (title, category_id, summary, detail, user_id, created_at, updated_at)
+              VALUES(?, ?, ?, ?, ?, ?, ?)
+              """</span><span class="o">;</span>
 
-    // 3. Connection 객체 획득(Connection 객체는 여기서 닫으면 안 됨!)
-    Connection conn = ConnectionHolder.get();
+      <span class="c1">// 3. Connection 객체 획득(Connection 객체는 여기서 닫으면 안 됨!)</span>
+      <span class="nc">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="nc">ConnectionHolder</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
 
-    // 4. JDBC 를 통해 SQL 문 실행 및 결과 처리
-    try {
+      <span class="c1">// 4. JDBC 를 통해 SQL 문 실행 및 결과 처리</span>
+      <span class="k">try</span> <span class="o">{</span>
 
-        // a. 처리 유형 (1): create - executeUpdate -&gt; t/f (with ResultSet for auto inc key)
-        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+          <span class="c1">// a. 처리 유형 (1): create - executeUpdate -&gt; t/f (with ResultSet for auto inc key)</span>
+          <span class="k">try</span> <span class="o">(</span><span class="nc">PreparedStatement</span> <span class="n">pstmt</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">,</span> <span class="nc">Statement</span><span class="o">.</span><span class="na">RETURN_GENERATED_KEYS</span><span class="o">))</span> <span class="o">{</span>
 
-            // SQL 와일드 카드에 값 채우기
-            pstmt.setString(1, course.getTitle());
-            pstmt.setInt(2, course.getSubCategoryId());
-            pstmt.setString(3, course.getSummary());
-            pstmt.setString(4, course.getDetail());
-            pstmt.setLong(5, course.getUserId());
-            pstmt.setTimestamp(6, Timestamp.valueOf(course.getCreatedAt()));
-            pstmt.setTimestamp(
-                    7,
-                    course.getUpdatedAt() == null ? null : Timestamp.valueOf(course.getUpdatedAt())
-            );
+              <span class="c1">// SQL 와일드 카드에 값 채우기</span>
+              <span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">course</span><span class="o">.</span><span class="na">getTitle</span><span class="o">());</span>
+              <span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">course</span><span class="o">.</span><span class="na">getSubCategoryId</span><span class="o">());</span>
+              <span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">course</span><span class="o">.</span><span class="na">getSummary</span><span class="o">());</span>
+              <span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="n">course</span><span class="o">.</span><span class="na">getDetail</span><span class="o">());</span>
+              <span class="n">pstmt</span><span class="o">.</span><span class="na">setLong</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="n">course</span><span class="o">.</span><span class="na">getUserId</span><span class="o">());</span>
+              <span class="n">pstmt</span><span class="o">.</span><span class="na">setTimestamp</span><span class="o">(</span><span class="mi">6</span><span class="o">,</span> <span class="nc">Timestamp</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">course</span><span class="o">.</span><span class="na">getCreatedAt</span><span class="o">()));</span>
+              <span class="n">pstmt</span><span class="o">.</span><span class="na">setTimestamp</span><span class="o">(</span>
+                      <span class="mi">7</span><span class="o">,</span>
+                      <span class="n">course</span><span class="o">.</span><span class="na">getUpdatedAt</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="nc">Timestamp</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">course</span><span class="o">.</span><span class="na">getUpdatedAt</span><span class="o">())</span>
+              <span class="o">);</span>
 
-            // SQL 실행
-            int result = pstmt.executeUpdate();
-            if (result == 0) {
-                throw new DatabaseException("알 수 없는 이유로 생성에 실패했습니다.", null);
-            }
+              <span class="c1">// SQL 실행</span>
+              <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">();</span>
+              <span class="k">if</span> <span class="o">(</span><span class="n">result</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                  <span class="k">throw</span> <span class="k">new</span> <span class="nf">DatabaseException</span><span class="o">(</span><span class="s">"알 수 없는 이유로 생성에 실패했습니다."</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+              <span class="o">}</span>
 
-            // 처음에는 비어있음
-            int id = -1;
-            RebuildCourse rebuildCourse = null;
-            List&lt;RebuildSection&gt; rebuildSections = new ArrayList&lt;&gt;();
+              <span class="c1">// 처음에는 비어있음</span>
+              <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+              <span class="nc">RebuildCourse</span> <span class="n">rebuildCourse</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+              <span class="nc">List</span><span class="o">&lt;</span><span class="nc">RebuildSection</span><span class="o">&gt;</span> <span class="n">rebuildSections</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
 
-            try (ResultSet rs = pstmt.getGeneratedKeys()) {
-                if (rs.next()) {
-                    // Course.id
-                    id = rs.getInt(1);
-                }
-            }
+              <span class="k">try</span> <span class="o">(</span><span class="nc">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">getGeneratedKeys</span><span class="o">())</span> <span class="o">{</span>
+                  <span class="k">if</span> <span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
+                      <span class="c1">// Course.id</span>
+                      <span class="n">id</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+                  <span class="o">}</span>
+              <span class="o">}</span>
 
-            // 섹션 리스트 영속화
-            rebuildSections
-                    = sectionRepository.createAllSectionsOfCourse(course.sections(), id);
+              <span class="c1">// 섹션 리스트 영속화</span>
+              <span class="n">rebuildSections</span>
+                      <span class="o">=</span> <span class="n">sectionRepository</span><span class="o">.</span><span class="na">createAllSectionsOfCourse</span><span class="o">(</span><span class="n">course</span><span class="o">.</span><span class="na">sections</span><span class="o">(),</span> <span class="n">id</span><span class="o">);</span>
 
-            // RebuildCourse
-            rebuildCourse = new RebuildCourse(
-                    id,
-                    course.getTitle(),
-                    course.getSummary(),
-                    course.getDetail(),
-                    course.getSubCategoryId(),
-                    course.getUserId(),
+              <span class="c1">// RebuildCourse</span>
+              <span class="n">rebuildCourse</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RebuildCourse</span><span class="o">(</span>
+                      <span class="n">id</span><span class="o">,</span>
+                      <span class="n">course</span><span class="o">.</span><span class="na">getTitle</span><span class="o">(),</span>
+                      <span class="n">course</span><span class="o">.</span><span class="na">getSummary</span><span class="o">(),</span>
+                      <span class="n">course</span><span class="o">.</span><span class="na">getDetail</span><span class="o">(),</span>
+                      <span class="n">course</span><span class="o">.</span><span class="na">getSubCategoryId</span><span class="o">(),</span>
+                      <span class="n">course</span><span class="o">.</span><span class="na">getUserId</span><span class="o">(),</span>
 
-                    // 이 시점에서 rebuildSections 리스트는 비어있음
-                    rebuildSections,
+                      <span class="c1">// 이 시점에서 rebuildSections 리스트는 비어있음</span>
+                      <span class="n">rebuildSections</span><span class="o">,</span>
 
-                    course.getCreatedAt(),
-                    course.getUpdatedAt()
-            );
+                      <span class="n">course</span><span class="o">.</span><span class="na">getCreatedAt</span><span class="o">(),</span>
+                      <span class="n">course</span><span class="o">.</span><span class="na">getUpdatedAt</span><span class="o">()</span>
+              <span class="o">);</span>
 
-            // rebuild 및 반환
-            return Course.rebuild(rebuildCourse);
-        }
-        // b. 예외 처리
-    } catch (SQLException e) {
-        dbUtils.handleSQLException(conn, e);
-    } catch (IllegalArgumentException e) {
-        throw new IllegalArgumentException("CourseRepository.create: rebuild 할 수 없습니다." +
-                "course 내부 상태를 다시 한 번 확인하시기 바랍니다.", e);
-    }
+              <span class="c1">// rebuild 및 반환</span>
+              <span class="k">return</span> <span class="nc">Course</span><span class="o">.</span><span class="na">rebuild</span><span class="o">(</span><span class="n">rebuildCourse</span><span class="o">);</span>
+          <span class="o">}</span>
+          <span class="c1">// b. 예외 처리</span>
+      <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+          <span class="n">dbUtils</span><span class="o">.</span><span class="na">handleSQLException</span><span class="o">(</span><span class="n">conn</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+      <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IllegalArgumentException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"CourseRepository.create: rebuild 할 수 없습니다."</span> <span class="o">+</span>
+                  <span class="s">"course 내부 상태를 다시 한 번 확인하시기 바랍니다."</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+      <span class="o">}</span>
 
-    // x. 코드가 의도대로 올바르게 구현된 경우 여기에 도달할 수 없습니다.
-    throw new RuntimeException("CategoryRepositoryImpl.create: 도달 불가능하도록 의도된 지점에 도달했습니다.");
-}
-```
-</code></pre></div></div> <p>&lt;/details&gt; <details>&lt;summary&gt;SectionRe.&lt;/summary&gt;</details></p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```java
-@Override
-public List&lt;RebuildSection&gt; createAllSectionsOfCourse(List&lt;Section&gt; sections, int courseId) {
+      <span class="c1">// x. 코드가 의도대로 올바르게 구현된 경우 여기에 도달할 수 없습니다.</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">"CategoryRepositoryImpl.create: 도달 불가능하도록 의도된 지점에 도달했습니다."</span><span class="o">);</span>
+  <span class="o">}</span></code></pre></figure> </details> <details><summary>SectionRepository.createAllSectionsOfCourse</summary> <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">RebuildSection</span><span class="o">&gt;</span> <span class="nf">createAllSectionsOfCourse</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Section</span><span class="o">&gt;</span> <span class="n">sections</span><span class="o">,</span> <span class="kt">int</span> <span class="n">courseId</span><span class="o">)</span> <span class="o">{</span>
 
-    // 1. 파라미터 검증
-    if (sections == null) {
-        throw new IllegalArgumentException("sections 가 null 입니다.");
-    }
-    if (sections.isEmpty()) {
-        throw new IllegalArgumentException("sections 가 empty 입니다.");
-    }
+    <span class="c1">// 1. 파라미터 검증</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">sections</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"sections 가 null 입니다."</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">sections</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"sections 가 empty 입니다."</span><span class="o">);</span>
+    <span class="o">}</span>
 
-    // 2. SQL 작성
-    StringBuilder sqlBuilder = new StringBuilder();
-    String invariant = """
+    <span class="c1">// 2. SQL 작성</span>
+    <span class="nc">StringBuilder</span> <span class="n">sqlBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
+    <span class="nc">String</span> <span class="n">invariant</span> <span class="o">=</span> <span class="sh">"""
             INSERT INTO section
             (name, seq, course_id)
             VALUES
-            """;
-    sqlBuilder
-            .append(invariant)
-            .append("(?, ?, ?),".repeat(sections.size()))
-            .deleteCharAt(sqlBuilder.length() - 1);  // 마지막 , 제거
+            """</span><span class="o">;</span>
+    <span class="n">sqlBuilder</span>
+            <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">invariant</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"(?, ?, ?),"</span><span class="o">.</span><span class="na">repeat</span><span class="o">(</span><span class="n">sections</span><span class="o">.</span><span class="na">size</span><span class="o">()))</span>
+            <span class="o">.</span><span class="na">deleteCharAt</span><span class="o">(</span><span class="n">sqlBuilder</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>  <span class="c1">// 마지막 , 제거</span>
 
-    // 3. Connection 객체 획득(Connection 객체는 여기서 닫으면 안 됨!)
-    Connection conn = ConnectionHolder.get();
+    <span class="c1">// 3. Connection 객체 획득(Connection 객체는 여기서 닫으면 안 됨!)</span>
+    <span class="nc">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="nc">ConnectionHolder</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
 
-    // 4. JDBC 를 통해 SQL 문 실행 및 결과 처리
-    try {
+    <span class="c1">// 4. JDBC 를 통해 SQL 문 실행 및 결과 처리</span>
+    <span class="k">try</span> <span class="o">{</span>
 
-        // a. 처리 유형 (1): create - executeUpdate -&gt; t/f (with ResultSet for auto inc key)
-        try (PreparedStatement pstmt
-                     = conn.prepareStatement(
-                             sqlBuilder.toString(), Statement.RETURN_GENERATED_KEYS)
-        ) {
+        <span class="c1">// a. 처리 유형 (1): create - executeUpdate -&gt; t/f (with ResultSet for auto inc key)</span>
+        <span class="k">try</span> <span class="o">(</span><span class="nc">PreparedStatement</span> <span class="n">pstmt</span>
+                      <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span>
+                              <span class="n">sqlBuilder</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="nc">Statement</span><span class="o">.</span><span class="na">RETURN_GENERATED_KEYS</span><span class="o">)</span>
+        <span class="o">)</span> <span class="o">{</span>
 
-            // SQL 와일드 카드에 값 채우기
-            int wildcardSeq = 0;
-            for (int i = 0; i &lt; sections.size(); i++) {
+            <span class="c1">// SQL 와일드 카드에 값 채우기</span>
+            <span class="kt">int</span> <span class="n">wildcardSeq</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">sections</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
 
-                Section eachSection = sections.get(i);
+                <span class="nc">Section</span> <span class="n">eachSection</span> <span class="o">=</span> <span class="n">sections</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
 
-                pstmt.setString(++wildcardSeq, eachSection.getName());
-                pstmt.setInt(++wildcardSeq, eachSection.getSeq());
-                pstmt.setInt(++wildcardSeq, courseId);
-            }
+                <span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(++</span><span class="n">wildcardSeq</span><span class="o">,</span> <span class="n">eachSection</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+                <span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(++</span><span class="n">wildcardSeq</span><span class="o">,</span> <span class="n">eachSection</span><span class="o">.</span><span class="na">getSeq</span><span class="o">());</span>
+                <span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(++</span><span class="n">wildcardSeq</span><span class="o">,</span> <span class="n">courseId</span><span class="o">);</span>
+            <span class="o">}</span>
 
-            // SQL 실행
-            int result = pstmt.executeUpdate();
-            if (result != sections.size()) {
-                throw new DatabaseException("일부 섹션 생성에 실패했습니다.", null);
-            }
+            <span class="c1">// SQL 실행</span>
+            <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">result</span> <span class="o">!=</span> <span class="n">sections</span><span class="o">.</span><span class="na">size</span><span class="o">())</span> <span class="o">{</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">DatabaseException</span><span class="o">(</span><span class="s">"일부 섹션 생성에 실패했습니다."</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+            <span class="o">}</span>
             
-            // 모든 컨텐츠 저장
-            List&lt;Integer&gt; generatedSectionIds = new ArrayList&lt;&gt;();
-            Map&lt;Integer, List&lt;Content&gt;&gt; contentsToBeCreated = new HashMap&lt;&gt;();
-            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+            <span class="c1">// 모든 컨텐츠 저장</span>
+            <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">generatedSectionIds</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+            <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Content</span><span class="o">&gt;&gt;</span> <span class="n">contentsToBeCreated</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+            <span class="k">try</span> <span class="o">(</span><span class="nc">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">getGeneratedKeys</span><span class="o">())</span> <span class="o">{</span>
 
-                for (int i = 0; rs.next(); i++) {
-                    int id = rs.getInt(1);
-                    generatedSectionIds.add(id);
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                    <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+                    <span class="n">generatedSectionIds</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
 
-                    Section eachSection = sections.get(i);
-                    contentsToBeCreated.put(id, eachSection.getContents());
-                }
-            }
-            Map&lt;Integer, List&lt;RebuildContent&gt;&gt; rebuildContentsBySectionId
-                    = contentRepository.createAllContentsOfSections(contentsToBeCreated);
+                    <span class="nc">Section</span> <span class="n">eachSection</span> <span class="o">=</span> <span class="n">sections</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+                    <span class="n">contentsToBeCreated</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="n">eachSection</span><span class="o">.</span><span class="na">getContents</span><span class="o">());</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">RebuildContent</span><span class="o">&gt;&gt;</span> <span class="n">rebuildContentsBySectionId</span>
+                    <span class="o">=</span> <span class="n">contentRepository</span><span class="o">.</span><span class="na">createAllContentsOfSections</span><span class="o">(</span><span class="n">contentsToBeCreated</span><span class="o">);</span>
 
-            // List&lt;RebuildSection&gt; 객체 생성 및 반환
-            List&lt;RebuildSection&gt; rebuildSections = new ArrayList&lt;&gt;();
-            for (int i = 0; i &lt; sections.size(); i++) {
+            <span class="c1">// List&lt;RebuildSection&gt; 객체 생성 및 반환</span>
+            <span class="nc">List</span><span class="o">&lt;</span><span class="nc">RebuildSection</span><span class="o">&gt;</span> <span class="n">rebuildSections</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">sections</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
 
-                int sectionId = generatedSectionIds.get(i);
-                List&lt;RebuildContent&gt; rebuildContents = rebuildContentsBySectionId.get(sectionId);
+                <span class="kt">int</span> <span class="n">sectionId</span> <span class="o">=</span> <span class="n">generatedSectionIds</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+                <span class="nc">List</span><span class="o">&lt;</span><span class="nc">RebuildContent</span><span class="o">&gt;</span> <span class="n">rebuildContents</span> <span class="o">=</span> <span class="n">rebuildContentsBySectionId</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">sectionId</span><span class="o">);</span>
 
-                rebuildSections.add(new RebuildSection(
-                        sectionId,
-                        sections.get(i).getSeq(),
-                        sections.get(i).getName(),
-                        rebuildContents
-                ));
-            }
+                <span class="n">rebuildSections</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">RebuildSection</span><span class="o">(</span>
+                        <span class="n">sectionId</span><span class="o">,</span>
+                        <span class="n">sections</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="na">getSeq</span><span class="o">(),</span>
+                        <span class="n">sections</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="na">getName</span><span class="o">(),</span>
+                        <span class="n">rebuildContents</span>
+                <span class="o">));</span>
+            <span class="o">}</span>
 
-            return rebuildSections;
-        }
-        // b. 예외 처리
-    } catch (SQLException e) {
-        dbUtils.handleSQLException(conn, e);
-    }
+            <span class="k">return</span> <span class="n">rebuildSections</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="c1">// b. 예외 처리</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">dbUtils</span><span class="o">.</span><span class="na">handleSQLException</span><span class="o">(</span><span class="n">conn</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+    <span class="o">}</span>
 
-    // x. 코드가 의도대로 올바르게 구현된 경우 여기에 도달할 수 없습니다.
-    throw new RuntimeException("CategoryRepositoryImpl.create: 도달 불가능하도록 의도된 지점에 도달했습니다.");
-}
-```
-</code></pre></div></div> <p>&lt;/details&gt; <details>&lt;summary&gt;CourseRepository.create&lt;/summary&gt;</details></p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```java
-@Override
-public Map&lt;Integer, List&lt;RebuildContent&gt;&gt; createAllContentsOfSections(
-        Map&lt;Integer, List&lt;Content&gt;&gt; contentsBySectionId) {
+    <span class="c1">// x. 코드가 의도대로 올바르게 구현된 경우 여기에 도달할 수 없습니다.</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">"CategoryRepositoryImpl.create: 도달 불가능하도록 의도된 지점에 도달했습니다."</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure> </details> <details><summary>ContentRepository.createAllContentsOfSections</summary> <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">RebuildContent</span><span class="o">&gt;&gt;</span> <span class="nf">createAllContentsOfSections</span><span class="o">(</span>
+        <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Content</span><span class="o">&gt;&gt;</span> <span class="n">contentsBySectionId</span><span class="o">)</span> <span class="o">{</span>
 
-    // 1. 파라미터 검증
-    if (contentsBySectionId == null) {
-        throw new IllegalArgumentException("contentsBySectionId 가 null");
-    }
+    <span class="c1">// 1. 파라미터 검증</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">contentsBySectionId</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"contentsBySectionId 가 null"</span><span class="o">);</span>
+    <span class="o">}</span>
 
-    // 2. SQL 작성
-    int numOfContents = 0;
-    for (List&lt;Content&gt; contentList : contentsBySectionId.values()) {
-        numOfContents += contentList.size();
-    }
-    StringBuilder sqlBuilder = new StringBuilder();
-    String invariant = """
+    <span class="c1">// 2. SQL 작성</span>
+    <span class="kt">int</span> <span class="n">numOfContents</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Content</span><span class="o">&gt;</span> <span class="n">contentList</span> <span class="o">:</span> <span class="n">contentsBySectionId</span><span class="o">.</span><span class="na">values</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">numOfContents</span> <span class="o">+=</span> <span class="n">contentList</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="nc">StringBuilder</span> <span class="n">sqlBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
+    <span class="nc">String</span> <span class="n">invariant</span> <span class="o">=</span> <span class="sh">"""
             INSERT INTO content
             (name, seq, section_id, body)
             VALUES
-            """;
-    sqlBuilder
-            .append(invariant)
-            .append("(?, ?, ?, ?),".repeat(numOfContents))
-            .deleteCharAt(sqlBuilder.length() - 1);  // 마지막 , 제거
+            """</span><span class="o">;</span>
+    <span class="n">sqlBuilder</span>
+            <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">invariant</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"(?, ?, ?, ?),"</span><span class="o">.</span><span class="na">repeat</span><span class="o">(</span><span class="n">numOfContents</span><span class="o">))</span>
+            <span class="o">.</span><span class="na">deleteCharAt</span><span class="o">(</span><span class="n">sqlBuilder</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>  <span class="c1">// 마지막 , 제거</span>
 
-    // 3. Connection 객체 획득(Connection 객체는 여기서 닫으면 안 됨!)
-    Connection conn = ConnectionHolder.get();
+    <span class="c1">// 3. Connection 객체 획득(Connection 객체는 여기서 닫으면 안 됨!)</span>
+    <span class="nc">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="nc">ConnectionHolder</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
 
-    // 4. JDBC 를 통해 SQL 문 실행 및 결과 처리
-    try {
+    <span class="c1">// 4. JDBC 를 통해 SQL 문 실행 및 결과 처리</span>
+    <span class="k">try</span> <span class="o">{</span>
 
-        // a. 처리 유형 (1): create - executeUpdate -&gt; t/f (with ResultSet for auto inc key)
-        try (PreparedStatement pstmt
-                     = conn.prepareStatement(
-                             sqlBuilder.toString(), Statement.RETURN_GENERATED_KEYS)
-        ) {
+        <span class="c1">// a. 처리 유형 (1): create - executeUpdate -&gt; t/f (with ResultSet for auto inc key)</span>
+        <span class="k">try</span> <span class="o">(</span><span class="nc">PreparedStatement</span> <span class="n">pstmt</span>
+                      <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span>
+                              <span class="n">sqlBuilder</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="nc">Statement</span><span class="o">.</span><span class="na">RETURN_GENERATED_KEYS</span><span class="o">)</span>
+        <span class="o">)</span> <span class="o">{</span>
 
-            // SQL 와일드 카드에 값 채우기
-            int wildcardSeq = 0;
-            for (Integer sectionId : contentsBySectionId.keySet()) {
-                List&lt;Content&gt; contents = contentsBySectionId.get(sectionId);
+            <span class="c1">// SQL 와일드 카드에 값 채우기</span>
+            <span class="kt">int</span> <span class="n">wildcardSeq</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="k">for</span> <span class="o">(</span><span class="nc">Integer</span> <span class="n">sectionId</span> <span class="o">:</span> <span class="n">contentsBySectionId</span><span class="o">.</span><span class="na">keySet</span><span class="o">())</span> <span class="o">{</span>
+                <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Content</span><span class="o">&gt;</span> <span class="n">contents</span> <span class="o">=</span> <span class="n">contentsBySectionId</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">sectionId</span><span class="o">);</span>
 
-                if (contents == null) {
-                    continue;
-                }
+                <span class="k">if</span> <span class="o">(</span><span class="n">contents</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">continue</span><span class="o">;</span>
+                <span class="o">}</span>
 
-                for (Content content : contents) {
-                    pstmt.setString(++wildcardSeq, content.getName());
-                    pstmt.setInt(++wildcardSeq, content.getSeq());
-                    pstmt.setInt(++wildcardSeq, sectionId);
-                    pstmt.setString(++wildcardSeq, content.getBody());
-                }
-            }
+                <span class="k">for</span> <span class="o">(</span><span class="nc">Content</span> <span class="n">content</span> <span class="o">:</span> <span class="n">contents</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(++</span><span class="n">wildcardSeq</span><span class="o">,</span> <span class="n">content</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+                    <span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(++</span><span class="n">wildcardSeq</span><span class="o">,</span> <span class="n">content</span><span class="o">.</span><span class="na">getSeq</span><span class="o">());</span>
+                    <span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(++</span><span class="n">wildcardSeq</span><span class="o">,</span> <span class="n">sectionId</span><span class="o">);</span>
+                    <span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(++</span><span class="n">wildcardSeq</span><span class="o">,</span> <span class="n">content</span><span class="o">.</span><span class="na">getBody</span><span class="o">());</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
 
-            // SQL 실행
-            int result = pstmt.executeUpdate();
-            if (result != numOfContents) {
-                throw new DatabaseException("일부 컨텐츠 생성에 실패했습니다.", null);
-            }
+            <span class="c1">// SQL 실행</span>
+            <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">result</span> <span class="o">!=</span> <span class="n">numOfContents</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">DatabaseException</span><span class="o">(</span><span class="s">"일부 컨텐츠 생성에 실패했습니다."</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+            <span class="o">}</span>
 
-            // Map&lt;Integer, List&lt;RebuildContent&gt;&gt; 객체 생성 및 반환
-            Map&lt;Integer, List&lt;RebuildContent&gt;&gt; rebuildContentsBySectionId
-                    = new HashMap&lt;&gt;();
-            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+            <span class="c1">// Map&lt;Integer, List&lt;RebuildContent&gt;&gt; 객체 생성 및 반환</span>
+            <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">RebuildContent</span><span class="o">&gt;&gt;</span> <span class="n">rebuildContentsBySectionId</span>
+                    <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+            <span class="k">try</span> <span class="o">(</span><span class="nc">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">getGeneratedKeys</span><span class="o">())</span> <span class="o">{</span>
 
-                for (Integer sectionId : contentsBySectionId.keySet()) {
-                    List&lt;RebuildContent&gt; rebuildContents = new ArrayList&lt;&gt;();
-                    List&lt;Content&gt; contents = contentsBySectionId.get(sectionId);
+                <span class="k">for</span> <span class="o">(</span><span class="nc">Integer</span> <span class="n">sectionId</span> <span class="o">:</span> <span class="n">contentsBySectionId</span><span class="o">.</span><span class="na">keySet</span><span class="o">())</span> <span class="o">{</span>
+                    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">RebuildContent</span><span class="o">&gt;</span> <span class="n">rebuildContents</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+                    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Content</span><span class="o">&gt;</span> <span class="n">contents</span> <span class="o">=</span> <span class="n">contentsBySectionId</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">sectionId</span><span class="o">);</span>
 
-                    if (contents == null) {
-                        continue;
-                    }
+                    <span class="k">if</span> <span class="o">(</span><span class="n">contents</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="k">continue</span><span class="o">;</span>
+                    <span class="o">}</span>
 
-                    for (Content content : contents) {
-                        rs.next();
-                        rebuildContents.add(new RebuildContent(
-                                rs.getLong(1),
-                                content.getName(),
-                                content.getSeq(),
-                                content.getBody()
-                        ));
-                    }
-                    rebuildContentsBySectionId.put(sectionId, rebuildContents);
-                }
-            }
+                    <span class="k">for</span> <span class="o">(</span><span class="nc">Content</span> <span class="n">content</span> <span class="o">:</span> <span class="n">contents</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+                        <span class="n">rebuildContents</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">RebuildContent</span><span class="o">(</span>
+                                <span class="n">rs</span><span class="o">.</span><span class="na">getLong</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span>
+                                <span class="n">content</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span>
+                                <span class="n">content</span><span class="o">.</span><span class="na">getSeq</span><span class="o">(),</span>
+                                <span class="n">content</span><span class="o">.</span><span class="na">getBody</span><span class="o">()</span>
+                        <span class="o">));</span>
+                    <span class="o">}</span>
+                    <span class="n">rebuildContentsBySectionId</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">sectionId</span><span class="o">,</span> <span class="n">rebuildContents</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
 
-            return rebuildContentsBySectionId;
-        }
-        // b. 예외 처리
-    } catch (SQLException e) {
-        dbUtils.handleSQLException(conn, e);
-    }
+            <span class="k">return</span> <span class="n">rebuildContentsBySectionId</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="c1">// b. 예외 처리</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">dbUtils</span><span class="o">.</span><span class="na">handleSQLException</span><span class="o">(</span><span class="n">conn</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+    <span class="o">}</span>
 
-    // x. 코드가 의도대로 올바르게 구현된 경우 여기에 도달할 수 없습니다.
-    throw new RuntimeException("CategoryRepositoryImpl.create: 도달 불가능하도록 의도된 지점에 도달했습니다.");
-}
-```
-</code></pre></div></div> <p>&lt;/details&gt;</p> <ul> <li>강좌를 하나 생성하기 위한 코드가 300줄 가까이 되는 것을 확인할 수 있다.</li> <li> <strong>원인</strong> <ul> <li>OOP 와 RDBMS 간 데이터를 다루는 패러다임의 불일치는 비즈니스 로직과 무관한 보일러 플레이트 코드를 양산한다.</li> <li>쿼리 마다 다음 과정이 계속해서 반복된다. <ul> <li>Connection 획득</li> <li>→ SQL 문자열 생성</li> <li>→ PreparedStatement 생성</li> <li>→ 파라미터 바인딩</li> <li>→ 실행</li> <li>→ ResultSet 매핑</li> <li>→ 예외 처리</li> <li>→ 리소스 정리</li> </ul> </li> <li>이에 더해 DDD 특유의 캡슐화로 인한 객체 생성의 제한은 이 복잡도를 증폭시켰다.</li> <li>개발 시간의 상당 부분이 비즈니스 로직과 무관한 데이터 접근 코드를 작성하는 데 소모되었다.</li> </ul> </li> <li> <strong>기존의 개선 노력</strong> <ul> <li>JDBC 의 Batch 기능을 이용하여 SQL 생성 부분 간소화</li> <li>공통된 예외 처리 로직을 분리(<code class="language-plaintext highlighter-rouge">dbUtils.handleSQLException</code>)</li> </ul> </li> <li> <strong>기존 방식의 한계</strong> <ul> <li>여전히 너무 복잡하고 크다.</li> <li>DDD는 좋은 설계 방식이지만, ORM의 도움 없이는 OOP-RDBMS 간 패러다임 불일치 문제가 극심하게 드러난다.</li> <li>Asset, Category, Notice 와 달리, Course 도메인은 Section 및 Content aggregate 를 포함하여 복잡도가 급증한것이다.</li> <li>개발 시간의 대부분이 CourseRepository 구현에 소모되었다.</li> </ul> </li> <li> <strong>개선 방향</strong> <ul> <li>JPA/Hibernate 와 같은 ORM 기술 도입!</li> <li>단, 이번에 JDBC 기술을 사용한 것은 경험의 측면도 있었다. JDBC 기술을 사용해야 한다면 <ul> <li>무리하게 DDD 를 적용하는 것은 명백히 Over Engineering 이다.</li> <li>그럼에도 불구하고 DDD가 필요하다면 Aggregate 내 엔티티 간 관계의 깊이를 제한하거나</li> <li>Repository 를 도메인 별로 분리하여 생성자 접근을 쉽게 만드는 등의 작업이 필요할 것 같다. 아래와 같이 위치시키는 것이다. <ul> <li>domain <ul> <li>course <ul> <li>CourseRepository</li> <li>SectionRepository</li> <li>ContentRepositoru</li> </ul> </li> <li>Category <ul> <li>CategoryRepository</li> </ul> </li> <li>…</li> </ul> </li> </ul> </li> </ul> </li> </ul> </li> </ul> <h2 id="32-협업의-관점에서의-문제점-및-개선-사항">3.2. 협업의 관점에서의 문제점 및 개선 사항</h2> <h3 id="321-계층-기반-업무-분할의-한계">3.2.1. 계층 기반 업무 분할의 한계</h3> <ul> <li> <strong>문제</strong> <ul> <li>계층 단위(presentation/service/repository/domain)로 업무를 나누어 진행하였고, 계층 간 의존성에 따른 업무 상 병목이 발생했다.</li> </ul> </li> <li> <strong>원인</strong> <ul> <li>요구사항이 명확하게 명세되지 않았고, 사실 도메인을 인원 수에 맞게 쪼갤 수도 없었다. 이런 이유로 계층 단위로 업무를 나누기로 결정했으나 결과적으로 좋은 선택은 아니었다. 업무에 있어 직렬적인 의존관계가 발생했기 때문이다. 예를 들어, 도메인 초안 코드가 나오기 전 까지 repository 계층을 구현할 수 없었고, 내가 repository 계층을 구현하기 전에 service 레이어를 구현할 수 없었다.</li> </ul> </li> <li> <strong>기존 개선 노력</strong> <ul> <li>서비스 계층 구현 인원이 최대한 빠르게 구현을 시작할 수 있도록 repository 계층의 인터페이스를 먼저 구현하여 제공했다.</li> </ul> </li> <li> <strong>기존 방식의 한계</strong> <ul> <li>모든 계층에서 인터페이스를 만드는 것이 바람직한 것은 아니다. 추상화 비용을 고려해야 한다.</li> <li>인터페이스가 변경되는 것이 바람직하지 않다는 것은 알았지만, 경험의 부족으로 실수하거나 간과한 부분들이 조금씩 보였다. 이로 인해 인터페이스 변경이 몇 번 있었고, 이 때마다 추가적인 의사소통 및 코드 조정 비용이 발생했다.</li> </ul> </li> <li> <strong>개선 방향</strong> <ul> <li>요구 사항을 명확히 정의하는 것이 필요했을 것 같다.</li> <li>그리고 도메인 단위의 수직 분할을 고려하여 업무 상 병목 최소화 꾀할 수 있을 것 같다.</li> </ul> </li> </ul> <p>진행 중…</p> <ul> <li>프로젝트를 진행하면서 어떤 문제점이 있었나? <ul> <li>기술적인 관점에서 어떤 문제점이 있었나?</li> <li>협업의 관점에서 어떤 문제가 있었나? <ul> <li>계층 기반 업무 분할의 한계 <ul> <li> </ul> </li> </ul> </li> <li>이 문제점을 어떻게 해결했는가? <ul> <li>만약 해결했다면 더 좋은 방법은 없었을까?</li> <li>만약 해결하지 못 했다면 그 이유는 무엇일까?</li> </ul> </li> </ul> </li> </ul> </article> <div id="giscus_thread"> <hr> <script defer src="/assets/js/giscus-setup.js"></script> <noscript> Please enable JavaScript to view the <a href="http://giscus.app/?ref_noscript" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a> </noscript> </div> </div> </div> <footer class="sticky-bottom mt-5" role="contentinfo"> <div class="container"> © Copyright 2025 Han SeungYeop. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 27, 2025. </div> </footer> <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <script src="/assets/js/bootstrap.bundle.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script> <script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script> <script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script> <script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script> <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script> <script>
+    <span class="c1">// x. 코드가 의도대로 올바르게 구현된 경우 여기에 도달할 수 없습니다.</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">"CategoryRepositoryImpl.create: 도달 불가능하도록 의도된 지점에 도달했습니다."</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure> </details> <p><br></p> <p><strong>원인</strong></p> <ul> <li>OOP 와 RDBMS 간 데이터를 다루는 패러다임의 불일치는 비즈니스 로직과 무관한 보일러 플레이트 코드를 양산한다.</li> <li>쿼리 마다 다음 과정이 계속해서 반복된다.</li> <li>Connection 획득 → SQL 문자열 생성 → PreparedStatement 생성 → 파라미터 바인딩 → 실행 → ResultSet 매핑 → 예외 처리 → 리소스 정리</li> <li>이에 더해 DDD 특유의 캡슐화로 인한 객체 생성의 제한은 이 복잡도를 증폭시켰다.</li> <li>개발 시간의 상당 부분이 비즈니스 로직과 무관한 데이터 접근 코드를 작성하는 데 소모되었다.</li> </ul> <p><strong>기존의 개선 노력</strong></p> <ul> <li>JDBC 의 Batch 기능을 이용하여 SQL 생성 부분 간소화</li> <li>공통된 예외 처리 로직을 분리(<code class="language-plaintext highlighter-rouge">dbUtils.handleSQLException</code>)</li> </ul> <p><strong>기존 방식의 한계</strong></p> <ul> <li>여전히 너무 복잡하고 크다.</li> <li>DDD는 좋은 설계 방식이지만, ORM의 도움 없이는 OOP-RDBMS 간 패러다임 불일치 문제가 극심하게 드러난다.</li> <li>Asset, Category, Notice 와 달리, Course 도메인은 Section 및 Content aggregate 를 포함하여 복잡도가 급증한것이다.</li> <li>개발 시간의 대부분이 CourseRepository 구현에 소모되었다.</li> </ul> <p><strong>개선 방향</strong></p> <ul> <li>JPA/Hibernate 와 같은 ORM 기술 도입!</li> <li>단, 이번에 JDBC 기술을 사용한 것은 경험의 측면도 있었다. JDBC 기술을 사용해야 한다면 <ul> <li>무리하게 DDD 를 적용하는 것은 명백히 Over Engineering 이다.</li> <li>그럼에도 불구하고 DDD가 필요하다면 Aggregate 내 엔티티 간 관계의 깊이를 제한하거나</li> <li>Repository 를 도메인 별로 분리하여 생성자 접근을 쉽게 만드는 등의 작업이 필요할 것 같다. 아래와 같이 위치시키는 것이다. <ul> <li>domain <ul> <li>course <ul> <li>CourseRepository</li> <li>SectionRepository</li> <li>ContentRepositoru</li> </ul> </li> <li>Category <ul> <li>CategoryRepository</li> </ul> </li> <li>…</li> </ul> </li> </ul> </li> </ul> </li> </ul> <h2 id="32-협업의-관점에서의-문제점-및-개선-사항">3.2. 협업의 관점에서의 문제점 및 개선 사항</h2> <h3 id="321-계층-기반-업무-분할의-한계">3.2.1. 계층 기반 업무 분할의 한계</h3> <p><strong>문제</strong></p> <ul> <li>계층 단위(presentation/service/repository/domain)로 업무를 나누어 진행하였고, 계층 간 의존성에 따른 업무 상 병목이 발생했다.</li> </ul> <p><strong>원인</strong></p> <ul> <li>요구사항이 명확하게 명세되지 않았고, 사실 도메인을 인원 수에 맞게 쪼갤 수도 없었다. 이런 이유로 계층 단위로 업무를 나누기로 결정했으나 결과적으로 좋은 선택은 아니었다. 업무에 있어 직렬적인 의존관계가 발생했기 때문이다. 예를 들어, 도메인 초안 코드가 나오기 전 까지 repository 계층을 구현할 수 없었고, 내가 repository 계층을 구현하기 전에 service 레이어를 구현할 수 없었다.</li> </ul> <p><strong>기존 개선 노력</strong></p> <ul> <li>서비스 계층 구현 인원이 최대한 빠르게 구현을 시작할 수 있도록 repository 계층의 인터페이스를 먼저 구현하여 제공했다.</li> </ul> <p><strong>기존 방식의 한계</strong></p> <ul> <li>모든 계층에서 인터페이스를 만드는 것이 바람직한 것은 아니다. 추상화 비용을 고려해야 한다.</li> <li>인터페이스가 변경되는 것이 바람직하지 않다는 것은 알았지만, 경험의 부족으로 실수하거나 간과한 부분들이 조금씩 보였다. 이로 인해 인터페이스 변경이 몇 번 있었고, 이 때마다 추가적인 의사소통 및 코드 조정 비용이 발생했다.</li> </ul> <p><strong>개선 방향</strong></p> <ul> <li>요구 사항을 명확히 정의하는 것이 필요했을 것 같다.</li> <li>그리고 도메인 단위의 수직 분할을 고려하여 업무 상 병목 최소화 꾀할 수 있을 것 같다.</li> </ul> <p>진행 중…</p> <ul> <li>프로젝트를 진행하면서 어떤 문제점이 있었나? <ul> <li>기술적인 관점에서 어떤 문제점이 있었나?</li> <li>협업의 관점에서 어떤 문제가 있었나? <ul> <li>계층 기반 업무 분할의 한계 <ul> <li> </ul> </li> </ul> </li> <li>이 문제점을 어떻게 해결했는가? <ul> <li>만약 해결했다면 더 좋은 방법은 없었을까?</li> <li>만약 해결하지 못 했다면 그 이유는 무엇일까?</li> </ul> </li> </ul> </li> </ul> </article> <div id="giscus_thread"> <hr> <script defer src="/assets/js/giscus-setup.js"></script> <noscript> Please enable JavaScript to view the <a href="http://giscus.app/?ref_noscript" rel="external nofollow noopener" target="_blank">comments powered by giscus.</a> </noscript> </div> </div> </div> <footer class="sticky-bottom mt-5" role="contentinfo"> <div class="container"> © Copyright 2025 Han SeungYeop. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: October 27, 2025. </div> </footer> <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <script src="/assets/js/bootstrap.bundle.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script> <script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script> <script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script> <script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script> <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script> <script>
     addBackToTop();
   </script> <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script> <script src="/assets/js/search-data.js"></script> <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script> </body> </html>
