@@ -154,12 +154,18 @@ disqus_shortname: al-folio # put your disqus shortname
 # If you have blog posts published on medium.com or other external sources,
 # you can display them in your blog by adding a link to the RSS feed.
 external_sources:
-  - name: medium.com
-    rss_url: https://medium.com/@al-folio/feed
-  - name: Google Blog
-    posts:
-      - url: https://blog.google/technology/ai/google-gemini-update-flash-ai-assistant-io-2024/
-        published_date: 2024-05-14
+  ##### 기본 설정 값 주석 처리
+  # - name: medium.com
+  #   rss_url: https://medium.com/@al-folio/feed
+  # - name: Google Blog
+  #   posts:
+  #     - url: https://blog.google/technology/ai/google-gemini-update-flash-ai-assistant-io-2024/
+  #       published_date: 2024-05-14
+  ##### 이런 식으로 하면 된다.
+  # - name: tistory.com
+  #   posts:
+  #   - url: https://brunch.co.kr/@supernova9/235
+  #     published_date: 2024-05-28
 
 # -----------------------------------------------------------------------------
 # Newsletter
@@ -204,6 +210,17 @@ kramdown:
 # Includes & excludes
 include: ["_pages", "_scripts"]
 exclude:
+  # 사용자 정의
+  # teaching 탭 숨기기
+  - _pages/teaching.md
+  # people 탭 숨기기
+  - _pages/profiles.md
+  # publication 탭 숨기기
+  - _bibliography
+  - _pages/publications.md
+  # submenus 탭 숨기기
+  - _pages/dropdown.md
+  # initial
   - bin/
   - CONTRIBUTING.md
   - CUSTOMIZE.md
@@ -292,6 +309,8 @@ display_categories: ["external-services"] # these categories will be displayed o
 
 # -----------------------------------------------------------------------------
 # Jekyll Scholar
+# publication 탭 숨기기 위해서 주석 처리
+# 참고: https://github.com/alshedivat/al-folio/blob/main/CUSTOMIZE.md#removing-the-publications-page
 # -----------------------------------------------------------------------------
 
 scholar:
