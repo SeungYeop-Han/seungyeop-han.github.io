@@ -6,7 +6,7 @@ tag: JDBC, MySQL, DDD, Github, Git
 img: /assets/img/project/2025-10-26-wanted-lms-1st/thumbnail.jpg
 date: 2025-10-26
 importance: 1
-category: wanted
+category: retrospect
 giscus_comments: true  
 ---
 

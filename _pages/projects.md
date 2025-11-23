@@ -5,7 +5,7 @@ permalink: /projects/
 description: 프로젝트 기록
 nav: true
 nav_order: 3
-display_categories: [wanted]
+display_categories: [retrospect]
 horizontal: false
 ---
 
