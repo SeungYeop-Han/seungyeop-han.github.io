@@ -65,6 +65,11 @@ ninja.data = [{
           description: "JDBC 기반의 커맨드라인 LMS 개발 여정",
           section: "Projects",handler: () => {
               window.location.href = "/projects/2025-10-26-wanted-lms-1st/";
+            },},{id: "projects-원티드-포텐업-두-번째-lxp-프로젝트-회고",
+          title: '원티드 포텐업 - 두 번째 LXP 프로젝트 회고',
+          description: "Spring Boot 기반의 LXP API 서버 개발기",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/2025-11-20-wanted-lxp-2nd/";
             },},{
         id: 'social-email',
         title: 'email',
