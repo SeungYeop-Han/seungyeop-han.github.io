@@ -44,7 +44,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "books-the-godfather",
+        },{id: "post-about-tododo-privacy-policy",
+        
+          title: "About Tododo Privacy Policy",
+        
+        description: "개인정보 관리 의무에 대해 살펴보고, 계정 휴면 기능의 필요성을 재고해보자.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/about-tododo-privacy-policy/";
+          
+        },
+      },{id: "books-the-godfather",
           title: 'The Godfather',
           description: "",
           section: "Books",handler: () => {
