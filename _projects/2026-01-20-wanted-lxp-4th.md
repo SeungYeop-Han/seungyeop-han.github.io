@@ -1,10 +1,10 @@
 ---
 layout: page
-title: 원티드 포텐업 - 두 번째 LXP 프로젝트 회고
-description: Spring Boot 기반의 LXP API 서버 개발기
+title: 원티드 포텐업 - 네 번째 LXP 프로젝트 회고
+description: DDD, 헥사고날, MSA 까지 다양한 것들을 훑어보면서 느낀 경험들
 tag: DDD, EventStorming, Layered Architecture, JPA, Spring Boot
-img: /assets/img/project/2025-11-19-wanted-lxp-2nd/thumbnail.png
-date: 2025-11-19
+img: /assets/img/project/2026-01-20-wanted-lxp-4th/thumbnail.jpg
+date: 2026-01-20
 importance: 1
 category: retrospect
 giscus_comments: true  
