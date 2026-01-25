@@ -81,6 +81,11 @@ ninja.data = [{
           description: "Spring Boot 기반의 LXP API 서버 개발기",
           section: "Projects",handler: () => {
               window.location.href = "/projects/2025-11-20-wanted-lxp-2nd/";
+            },},{id: "projects-팔로우-멱등성-구현-시-발생한-문제-상황과-해결-방안-결정을-위한-여정",
+          title: '팔로우 멱등성 구현 시 발생한 문제 상황과 해결 방안 결정을 위한 여정',
+          description: "원티드 포텐업 - 두 번째 LXP 프로젝트 진행 중 경험한 문제 해결 여정 공유",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/2025-12-11-wanted-lxp-3rd/";
             },},{id: "projects-원티드-포텐업-네-번째-lxp-프로젝트-회고",
           title: '원티드 포텐업 - 네 번째 LXP 프로젝트 회고',
           description: "DDD, 헥사고날, MSA 까지 다양한 것들을 훑어보면서 느낀 경험들",
